@@ -1,7 +1,8 @@
 import React from 'react'
 import './App.css'
-import Layout from 'components/Layout'
-import InsideLayout from 'components/Layout/TestC/TestC'
+import Layout from '@/components/Layout'
+import InsideLayout from '@common/TestC'
+import Button from '@common/Button'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <p>Start react calculator task</p>
         <Layout />
         <InsideLayout />
+        <Button />
       </header>
     </div>
   )
