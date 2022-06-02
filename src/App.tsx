@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css'
+// import './App.css'
 import Layout from '@/components/Layout'
 import InsideLayout from '@common/TestC'
 import Button from '@common/Button'

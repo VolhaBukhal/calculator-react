@@ -1,7 +1,7 @@
-import React from 'react'
+import { StyledLayout } from './components'
 
 const Layout = () => {
-  return <div>Layout component</div>
+  return <StyledLayout>Layout component</StyledLayout>
 }
 
 export default Layout
