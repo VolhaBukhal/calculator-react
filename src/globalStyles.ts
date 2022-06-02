@@ -30,7 +30,7 @@ export default createGlobalStyle`
   }
 
   #root {
-    display: flex;
+    /* display: flex; */
     background: linear-gradient(to bottom, #6d84b1, #4a6298);
   }
 `
