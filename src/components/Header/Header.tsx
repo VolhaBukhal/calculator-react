@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <>
       <StyledHeader>
-        <Logo>Calculator</Logo>
+        <Logo>Calculator App</Logo>
         <Navigation>
           {pages.map((pageInfo) => (
             <NavLink

@@ -1,7 +1,14 @@
 import React from 'react'
 
 const Settings = () => {
-  return <div>Settings</div>
+  const handleClick = () => {
+    console.log('handleClick in Settings')
+  }
+  return (
+    <div>
+      <button onClick={handleClick}> Change Theme</button>
+    </div>
+  )
 }
 
 export default Settings
