@@ -1,0 +1,25 @@
+import React, { Component } from 'react'
+import { v4 as uuid } from 'uuid'
+import { HistoryStyled, HistoryHeading, Divider, HistoryContent, HistoryItem } from './components'
+
+type HistoryProps = {
+  historyData: Array<string>
+}
+
+class History extends Component<HistoryProps> {
+  render() {
+    return (
+      <HistoryStyled>
+        <HistoryHeading>History</HistoryHeading>
+        <Divider />
+        <HistoryContent>
+          {this.props.historyData.map((expr) => (
+            <HistoryItem key={uuid()}>{expr}</HistoryItem>
+          ))}
+        </HistoryContent>
+      </HistoryStyled>
+    )
+  }
+}
+
+export default History
