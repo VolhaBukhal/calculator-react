@@ -1,7 +1,12 @@
 import React from 'react'
+import CalculatorWrapper from '@components/CalculatorWrapper/CalculatorWrapper'
 
 const ClassCalculator = () => {
-  return <div>ClassCalculator</div>
+  return (
+    <>
+      <CalculatorWrapper />
+    </>
+  )
 }
 
 export default ClassCalculator
