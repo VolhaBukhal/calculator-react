@@ -4,8 +4,8 @@ import Display from '@components/Display'
 import Keyboard from '@components/Keyboard/Keyboard'
 import History from '@components/History'
 
-import { doCalcExpression } from '@/helpers/expressionCalculator'
-import { localStorageSetHistory, localStorageGetHistory } from '@/helpers/localStorage'
+import { doCalcExpression } from '@helpers/expressionCalculator'
+import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
 // const history = [
 //   '25+5',

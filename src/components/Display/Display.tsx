@@ -9,6 +9,7 @@ class Display extends Component<DisplayProps> {
   constructor(props: DisplayProps) {
     super(props)
   }
+
   render() {
     const { value } = this.props
     return <DisplayStyled>{value}</DisplayStyled>
