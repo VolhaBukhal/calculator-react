@@ -23,6 +23,7 @@ const HistoryContent = styled.div`
   margin-right: ${({ theme }) => theme.spaces[1] / 2}px;
   &::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.colors.secondaryGrey};

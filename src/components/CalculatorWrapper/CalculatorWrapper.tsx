@@ -47,7 +47,6 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
         break
 
       case '=':
-        console.log('====')
         this.handleCalculation()
         break
 
@@ -55,26 +54,9 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
         this.handleBackOneSign()
         break
 
-      case '.':
-        this.handleComa(pressedBtnValue)
-        break
-
       case '+/-':
         this.handleOppositeSign()
         break
-
-      // case '+':
-      //   this.handleOperand('+')
-      //   break
-      // case '-':
-      //   this.handleOperand('-')
-      //   break
-      // case '*':
-      //   this.handleOperand('*')
-      //   break
-      // case '/':
-      //   this.handleOperand('/')
-      //   break
 
       default:
         this.handleNumber(pressedBtnValue)
@@ -98,15 +80,6 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }
   }
 
-  handleComa = (value: string) => {
-    const curValue = this.state.expression
-    if (!curValue.includes('.')) {
-      this.setState(({ expression }) => ({
-        expression: expression + value,
-      }))
-    }
-  }
-
   handleOppositeSign = () => {
     let curValue = this.state.expression
     if (curValue.includes('-')) {
@@ -117,10 +90,6 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
         this.setState({ expression: `-${curValue}` })
       }
     }
-  }
-
-  handleSetCalcFunction = () => {
-    console.log('call when operand called')
   }
 
   handleNumber = (value: string) => {
@@ -145,27 +114,12 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }
   }
 
-  // handleOperand = (operand: string) => {
-  //   this.setState((state) => ({
-  //     ...state,
-  //     tempRes: this.state.expression,
-  //     curOperand: operand,
-  //   }))
-  //   // switch(operand) {
-  //   //   case "+" :
-  //   //     let res =
-  //   // }
-  // }
-
   handleCalculation = () => {
-    // if (this.state.expression !== '0') {
     this.setState(({ history }) => ({
       history: [...history, this.state.expression],
     }))
-    // }
 
     const res = doCalcExpression(this.state.expression)
-    console.log(res)
 
     if (res || res === 0) {
       this.setState({ expression: String(res) })

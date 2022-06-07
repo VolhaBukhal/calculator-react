@@ -9,7 +9,7 @@ const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: 70%;
+  width: 650px;
   margin: 0 auto;
   margin-top: ${({ theme }) => theme.spaces[5]}px;
 `
