@@ -4,27 +4,27 @@ import Display from '@components/Display'
 import Keyboard from '@components/Keyboard/Keyboard'
 import History from '@components/History'
 
-import { doCalc } from '@/helpers/expressionCalculator'
-import { localStorageGetHistory, localStorageSetHistory } from '@/helpers/localStorage'
+import { doCalcExpression } from '@/helpers/expressionCalculator'
+import { localStorageSetHistory } from '@/helpers/localStorage'
 
-const history = [
-  '25+5',
-  '100*200',
-  '48/2',
-  '(15+27)/3*12',
-  '25+5',
-  '100*200',
-  '48/2',
-  '(15+27)/3*12',
-  '25+5',
-  '100*200',
-  '48/2',
-  '(15+27)/3*12',
-  '25+5',
-  '100*200',
-  '48/2',
-  '(15+27)/3*12',
-]
+// const history = [
+//   '25+5',
+//   '100*200',
+//   '48/2',
+//   '(15+27)/3*12',
+//   '25+5',
+//   '100*200',
+//   '48/2',
+//   '(15+27)/3*12',
+//   '25+5',
+//   '100*200',
+//   '48/2',
+//   '(15+27)/3*12',
+//   '25+5',
+//   '100*200',
+//   '48/2',
+//   '(15+27)/3*12',
+// ]
 
 type CalculatorWrapperState = {
   expression: string
@@ -164,7 +164,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }))
     // }
 
-    const res = doCalc(this.state.expression)
+    const res = doCalcExpression(this.state.expression)
     console.log(res)
 
     if (res || res === 0) {

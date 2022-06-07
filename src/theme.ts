@@ -1,5 +1,3 @@
-import { css } from 'styled-components'
-
 // const font = 'sans-serif'
 const font = 'Montserrat'
 
@@ -18,12 +16,12 @@ const textGrey = '#525A66'
 
 const boxShadows = ['box-shadow: 0px 4px 24px -8px rgba(0,0,0,0.75)']
 
-const size = {
-  xs: 550,
-  small: 768,
-  med: 992,
-  large: 1200,
-}
+// const size = {
+//   xs: 550,
+//   small: 768,
+//   med: 992,
+//   large: 1200,
+// }
 
 export default {
   boxShadows,
