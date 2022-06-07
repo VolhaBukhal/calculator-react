@@ -4,6 +4,10 @@ export const localStorageSetHistory = (historyCalc: string[]) => {
 }
 
 export const localStorageGetHistory = () => {
-  const storedHistory: string[] = JSON.parse(JSON.stringify('historyCalc'))
-  return storedHistory
+  const storedHistory = localStorage.getItem('historyCalc')
+  return storedHistory ? JSON.parse(storedHistory) : []
+}
+
+export const localStorageClear = () => {
+  localStorage.clear()
 }

@@ -1,14 +1,23 @@
-import React from 'react'
+import { Component } from 'react'
+import { localStorageClear } from '@/helpers/localStorage'
 
-const Settings = () => {
-  const handleClick = () => {
+class Settings extends Component {
+  handleClick = () => {
     console.log('handleClick in Settings')
   }
-  return (
-    <div>
-      <button onClick={handleClick}> Change Theme</button>
-    </div>
-  )
+
+  handleClearHistory = () => {
+    localStorageClear()
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}> Change Theme</button>
+        <button onClick={this.handleClearHistory}> Clear History</button>
+      </div>
+    )
+  }
 }
 
 export default Settings

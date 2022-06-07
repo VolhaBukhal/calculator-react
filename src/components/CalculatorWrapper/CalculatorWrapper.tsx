@@ -5,7 +5,7 @@ import Keyboard from '@components/Keyboard/Keyboard'
 import History from '@components/History'
 
 import { doCalcExpression } from '@/helpers/expressionCalculator'
-import { localStorageSetHistory } from '@/helpers/localStorage'
+import { localStorageSetHistory, localStorageGetHistory } from '@/helpers/localStorage'
 
 // const history = [
 //   '25+5',
@@ -38,6 +38,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       expression: '0',
       history: [],
     }
+    console.log('constructor')
   }
 
   handleExpressionValue = (pressedBtnValue: string) => {
@@ -115,9 +116,14 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   }
 
   handleCalculation = () => {
-    this.setState(({ history }) => ({
-      history: [...history, this.state.expression],
-    }))
+    this.setState(
+      ({ history }) => ({
+        history: [...history, this.state.expression],
+      }),
+      () => {
+        localStorageSetHistory(this.state.history)
+      }
+    )
 
     const res = doCalcExpression(this.state.expression)
 
@@ -126,25 +132,10 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }
   }
 
-  componentWillUnmount() {
-    localStorageSetHistory(this.state.history)
-  }
-
   componentDidMount() {
-    console.log('componentDidMount')
-    // const storedHistory: string[] | null = localStorageGetHistory() | null
-    // if (storedHistory) {
-    //   this.setState(({ history }) => ({ history: storedHistory }))
-    // } else {
-    //   return null
-    // }
+    const storedHistory: string[] = localStorageGetHistory()
+    this.setState({ history: storedHistory })
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.pokemons !== this.state.pokemons) {
-  //     console.log('pokemons state has changed.')
-  //   }
-  // }
 
   render() {
     const { expression, history } = this.state

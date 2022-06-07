@@ -1,12 +1,14 @@
-import React from 'react'
+import { Component } from 'react'
 import CalculatorWrapper from '@components/CalculatorWrapper/CalculatorWrapper'
 
-const ClassCalculator = () => {
-  return (
-    <>
-      <CalculatorWrapper />
-    </>
-  )
+class ClassCalculator extends Component {
+  render() {
+    return (
+      <>
+        <CalculatorWrapper />
+      </>
+    )
+  }
 }
 
 export default ClassCalculator
