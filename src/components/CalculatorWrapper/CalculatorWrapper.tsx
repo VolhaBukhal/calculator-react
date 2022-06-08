@@ -4,27 +4,16 @@ import Display from '@components/Display'
 import Keyboard from '@components/Keyboard/Keyboard'
 import History from '@components/History'
 
-import { doCalcExpression } from '@helpers/expressionCalculator'
+import { doCalcExpression, checkCommaIsUnique } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
-// const history = [
-//   '25+5',
-//   '100*200',
-//   '48/2',
-//   '(15+27)/3*12',
-//   '25+5',
-//   '100*200',
-//   '48/2',
-//   '(15+27)/3*12',
-//   '25+5',
-//   '100*200',
-//   '48/2',
-//   '(15+27)/3*12',
-//   '25+5',
-//   '100*200',
-//   '48/2',
-//   '(15+27)/3*12',
-// ]
+enum SecondaryOperands {
+  CLEAR_ALL = 'AC',
+  EQUAL = '=',
+  COMMA = '.',
+  CLEAR = '->',
+  OPPOSITE_SIGN = '+/-',
+}
 
 type CalculatorWrapperState = {
   expression: string
@@ -38,24 +27,27 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       expression: '0',
       history: [],
     }
-    console.log('constructor')
   }
 
   handleExpressionValue = (pressedBtnValue: string) => {
     switch (pressedBtnValue) {
-      case 'AC':
+      case SecondaryOperands.CLEAR_ALL:
         this.handleClearDisplay()
         break
 
-      case '=':
+      case SecondaryOperands.EQUAL:
         this.handleCalculation()
         break
 
-      case '->':
+      case SecondaryOperands.COMMA:
+        this.handleComma(pressedBtnValue)
+        break
+
+      case SecondaryOperands.CLEAR:
         this.handleBackOneSign()
         break
 
-      case '+/-':
+      case SecondaryOperands.OPPOSITE_SIGN:
         this.handleOppositeSign()
         break
 
@@ -66,6 +58,16 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
 
   handleClearDisplay = () => {
     this.setState({ expression: '0' })
+  }
+
+  handleComma = (value: string) => {
+    const curValue = this.state.expression
+    const { isCommaAlreadyExist } = checkCommaIsUnique(curValue)
+    if (!isCommaAlreadyExist) {
+      this.setState(({ expression }) => ({
+        expression: expression + value,
+      }))
+    }
   }
 
   handleBackOneSign = () => {
@@ -95,21 +97,27 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
 
   handleNumber = (value: string) => {
     const { expression } = this.state
+    const isDoubleZero = value === '00'
     if (this.state.expression === '0') {
-      this.setState({ expression: value })
+      if (!isDoubleZero) {
+        this.setState({ expression: value })
+      }
     } else {
+      const operands = '+-/x%'
       const lastInExpression = expression[expression.length - 1]
-      const lastSignIsOperand = '+-/x%'.includes(lastInExpression)
-      const isOperand = '+-/x%'.includes(value)
+      const lastSignIsOperand = operands.includes(lastInExpression)
+      const isOperand = operands.includes(value)
       if (!lastSignIsOperand) {
         this.setState(({ expression }) => ({
           expression: expression + value,
         }))
       } else {
         if (!isOperand) {
-          this.setState(({ expression }) => ({
-            expression: expression + value,
-          }))
+          if (!isDoubleZero) {
+            this.setState(({ expression }) => ({
+              expression: expression + value,
+            }))
+          }
         }
       }
     }

@@ -144,4 +144,19 @@ export function doCalcExpression(expr: string) {
   return calculation[0]
 }
 
-export default { doCalc, doCalcExpression }
+function separateStrBySymbols(str: string) {
+  const regExp = /\+|\-|\/|\)|\(|\%|x/
+  return str.split(regExp)
+}
+
+export function checkCommaIsUnique(expr: string) {
+  const arr = separateStrBySymbols(expr)
+  const lastEl = arr[arr.length - 1]
+  const isCommaAlreadyExist = lastEl.includes('.')
+
+  return {
+    isCommaAlreadyExist,
+  }
+}
+
+export default { doCalcExpression, checkCommaIsUnique }

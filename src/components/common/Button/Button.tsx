@@ -19,6 +19,7 @@ class Button extends Component<ButtonProps> {
       this.props.handleExpressionValue(value)
     }
   }
+
   render() {
     const { value, buttonType, width, height } = this.props
     return (
