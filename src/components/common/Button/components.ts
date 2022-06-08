@@ -12,8 +12,14 @@ const ButtonStyled = styled.button<ButtonTypes>`
   border: none;
   outline: none;
   border-radius: 5px;
-  background-color: ${({ buttonType }) => (buttonType === 'number' ? '#D3D7E3' : '#787C87')};
-  color: ${({ buttonType }) => (buttonType === 'number' ? 'black' : 'white')};
+  background-color: ${(props) =>
+    props.buttonType === 'number'
+      ? props.theme.colors.buttonGreyLight
+      : props.theme.colors.buttonGreyDark};
+  color: ${(props) =>
+    props.buttonType === 'number'
+      ? props.theme.colors.buttonGreyDark
+      : props.theme.colors.buttonGreyLight};
   font-size: ${({ theme }) => theme.fontSizes[5]}px;
   &:hover {
     cursor: pointer;

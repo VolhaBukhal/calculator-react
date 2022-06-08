@@ -20,15 +20,4 @@ export default createGlobalStyle`
       height: 100%;
     }
   }
-
-  body {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  #root {
-    /* display: flex; */
-    background: linear-gradient(to bottom, #6d84b1, #4a6298);
-  }
-`
+  `

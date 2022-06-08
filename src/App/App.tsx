@@ -8,27 +8,37 @@ import FunctionCalculator from '@/screens/FunctionCalculator'
 import PageNotFound from '@/screens/PageNotFound'
 import ErrorBoundary from '@components/ErrorBoundary/ErrorBoundary'
 import { ThemeProvider, DefaultTheme } from 'styled-components'
-import { baseTheme as theme, darkTheme, lightTheme } from '@/theme'
+import { baseTheme as theme, darkTheme, lightTheme, coloredTheme } from '@/theme'
+import { localStorageGetTheme } from '@helpers/localStorage'
 
 type AppState = {
   theme: DefaultTheme
 }
+
+const ThemeList = {
+  light: lightTheme,
+  dark: darkTheme,
+  colored: coloredTheme,
+}
+
+type ThemeListKeys = keyof typeof ThemeList
 
 class App extends Component<Record<string, unknown>, AppState> {
   state = {
     theme: darkTheme,
   }
 
-  toggleTheme = () => {
-    this.setState(
-      ({ theme }) => ({
-        theme: theme === darkTheme ? lightTheme : darkTheme,
-      }),
-      () => {
-        console.log('them:', theme)
-      }
-    )
+  toggleTheme = (curTheme: string) => {
+    this.setState({ theme: ThemeList[curTheme as ThemeListKeys] }, () => {
+      console.log('chosen theme:', theme)
+    })
   }
+
+  componentDidMount() {
+    const storedLSTheme = localStorageGetTheme()
+    this.setState({ theme: ThemeList[storedLSTheme as ThemeListKeys] })
+  }
+
   render() {
     const { theme } = this.state
     return (

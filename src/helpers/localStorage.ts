@@ -8,6 +8,16 @@ export const localStorageGetHistory = () => {
   return storedHistory ? JSON.parse(storedHistory) : []
 }
 
+export const localStorageSetTheme = (theme: string) => {
+  const stringifiedValue = JSON.stringify(theme)
+  localStorage.setItem('CalcTheme', stringifiedValue)
+}
+
+export const localStorageGetTheme = () => {
+  const storedTheme = localStorage.getItem('CalcTheme')
+  return storedTheme ? JSON.parse(storedTheme) : 'light'
+}
+
 export const localStorageClear = () => {
   localStorage.clear()
 }

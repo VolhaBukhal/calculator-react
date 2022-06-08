@@ -2,6 +2,7 @@ export interface ITheme {
   boxShadows: string
   font: string
   spaces: number[]
+  body: string
   colors: {
     primary: string
     secondary: string
@@ -10,6 +11,8 @@ export interface ITheme {
     secondaryGrey: string
     secondaryDarkGrey: string
     secondaryLightGrey: string
+    buttonGreyLight: string
+    buttonGreyDark: string
     textGrey: string
     black: string
     white: string
@@ -17,11 +20,18 @@ export interface ITheme {
     body: string
   }
   fontSizes: number[]
+  transition: string
 }
 
 export enum ThemeEnum {
   light = 'light',
   dark = 'dark',
+  colored = 'colored',
+}
+
+export enum ThemeBody {
+  bodyLight = '#6d84b1',
+  bodyDark = '#374b57',
 }
 
 // boxShadows,

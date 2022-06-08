@@ -134,13 +134,13 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
 
   handleNumber = (value: string) => {
     const { expression } = this.state
+    const operands = '+-/x%'
     const isDoubleZero = value === '00'
-    if (this.state.expression === '0') {
-      if (!isDoubleZero) {
+    if (expression === '0') {
+      if (!isDoubleZero && !operands.includes(value)) {
         this.setState({ expression: value })
       }
     } else {
-      const operands = '+-/x%'
       const { lastSignIsOperand } = checkLastSignIsOperand(expression)
       const isOperand = operands.includes(value)
       if (!lastSignIsOperand) {
