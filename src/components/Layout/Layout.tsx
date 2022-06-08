@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom'
-import { StyledLayout } from './components'
+import { StyledLayout, StyledContainer } from './components'
 import Header from '@/components/Header/Header'
 
 const Layout = () => {
   return (
     <StyledLayout>
       <Header />
-      <Outlet />
+      <StyledContainer>
+        <Outlet />
+      </StyledContainer>
     </StyledLayout>
   )
 }
