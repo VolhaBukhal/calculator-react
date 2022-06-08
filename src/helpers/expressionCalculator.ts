@@ -40,7 +40,7 @@ function generateArrFromStr(str: string): CalculateArrType {
 }
 
 //check if Brackets is paired
-function checkBrackets(calculation: CalculateArrType) {
+export function checkBrackets(calculation: CalculateArrType) {
   debugger
   const stack = []
   for (const el of calculation) {
@@ -154,9 +154,14 @@ export function checkCommaIsUnique(expr: string) {
   const lastEl = arr[arr.length - 1]
   const isCommaAlreadyExist = lastEl.includes('.')
 
-  return {
-    isCommaAlreadyExist,
-  }
+  return { isCommaAlreadyExist }
 }
 
-export default { doCalcExpression, checkCommaIsUnique }
+export function checkLastSignIsOperand(expr: string) {
+  const operands = '+-/x%'
+  const lastInExpression = expr[expr.length - 1]
+  const lastSignIsOperand = operands.includes(lastInExpression)
+  return { lastSignIsOperand }
+}
+
+export default { doCalcExpression, checkCommaIsUnique, checkLastSignIsOperand }

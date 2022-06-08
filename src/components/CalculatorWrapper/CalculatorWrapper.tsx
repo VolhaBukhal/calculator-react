@@ -4,7 +4,11 @@ import Display from '@components/Display'
 import Keyboard from '@components/Keyboard/Keyboard'
 import History from '@components/History'
 
-import { doCalcExpression, checkCommaIsUnique } from '@helpers/expressionCalculator'
+import {
+  doCalcExpression,
+  checkCommaIsUnique,
+  checkLastSignIsOperand,
+} from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
 enum SecondaryOperands {
@@ -13,6 +17,8 @@ enum SecondaryOperands {
   COMMA = '.',
   CLEAR = '->',
   OPPOSITE_SIGN = '+/-',
+  OPEN_BRACKET = '(',
+  CLOSE_BRACKET = ')',
 }
 
 type CalculatorWrapperState = {
@@ -49,6 +55,14 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
 
       case SecondaryOperands.OPPOSITE_SIGN:
         this.handleOppositeSign()
+        break
+
+      case SecondaryOperands.OPEN_BRACKET:
+        this.handleOpenBracket(pressedBtnValue)
+        break
+
+      case SecondaryOperands.CLOSE_BRACKET:
+        this.handleCloseBracket(pressedBtnValue)
         break
 
       default:
@@ -95,6 +109,29 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }
   }
 
+  handleOpenBracket = (value: string) => {
+    const { expression } = this.state
+    if (expression.length === 1 && expression === '0') {
+      this.setState({ expression: value })
+    } else {
+      const lastSign = expression.charAt(expression.length - 1)
+      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+      if (lastSignIsOperand) {
+        this.setState({ expression: expression + value })
+      } else if (lastSign === '(') {
+        this.setState({ expression: expression + value })
+      }
+    }
+  }
+
+  handleCloseBracket = (value: string) => {
+    const { expression } = this.state
+    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    if (expression.length !== 1 && !lastSignIsOperand) {
+      this.setState({ expression: expression + value })
+    }
+  }
+
   handleNumber = (value: string) => {
     const { expression } = this.state
     const isDoubleZero = value === '00'
@@ -104,8 +141,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       }
     } else {
       const operands = '+-/x%'
-      const lastInExpression = expression[expression.length - 1]
-      const lastSignIsOperand = operands.includes(lastInExpression)
+      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
       const isOperand = operands.includes(value)
       if (!lastSignIsOperand) {
         this.setState(({ expression }) => ({
