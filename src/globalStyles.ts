@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-
-import theme from './theme'
+import { baseTheme as theme } from './theme'
 
 export default createGlobalStyle`
   * {

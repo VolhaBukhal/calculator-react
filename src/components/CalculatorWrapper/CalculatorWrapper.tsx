@@ -127,7 +127,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   handleCloseBracket = (value: string) => {
     const { expression } = this.state
     const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-    if (expression.length !== 1 && !lastSignIsOperand) {
+    if (expression.length !== 1 && !lastSignIsOperand && expression.includes('(')) {
       this.setState({ expression: expression + value })
     }
   }
