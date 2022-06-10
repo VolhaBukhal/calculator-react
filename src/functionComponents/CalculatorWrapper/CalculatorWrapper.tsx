@@ -8,6 +8,8 @@ import {
   doCalcExpression,
   checkCommaIsUnique,
   checkLastSignIsOperand,
+  checkLastSignIsOpenBrackets,
+  checkNumberExist,
   generateErrorMsg,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
@@ -71,52 +73,66 @@ const CalculatorWrapper = () => {
 
   const handleComma = (value: string) => {
     const { isCommaAlreadyExist } = checkCommaIsUnique(expression)
-    if (!isCommaAlreadyExist) {
-      setExpression(expression + value)
+    if (!isError) {
+      if (!isCommaAlreadyExist) {
+        setExpression(expression + value)
+      }
     }
   }
 
   const handleBackOneSign = () => {
-    if (expression.length > 1) {
-      const cuttedValue = expression
-        .split('')
-        .splice(0, expression.length - 1)
-        .join('')
-      setExpression(cuttedValue)
-    } else {
-      setExpression('0')
+    if (!isError) {
+      if (expression.length > 1) {
+        const cuttedValue = expression
+          .split('')
+          .splice(0, expression.length - 1)
+          .join('')
+        setExpression(cuttedValue)
+      } else {
+        setExpression('0')
+      }
     }
   }
 
   const handleOppositeSign = () => {
-    if (expression.includes('-')) {
-      const curValue = expression.split('').splice(1).join('')
-      setExpression(curValue)
-    } else {
-      if (expression !== '0') {
-        setExpression(`-${expression}`)
+    if (!isError) {
+      if (expression.includes('-')) {
+        const curValue = expression.split('').splice(1).join('')
+        setExpression(curValue)
+      } else {
+        if (expression !== '0') {
+          setExpression(`-${expression}`)
+        }
       }
     }
   }
 
   const handleOpenBracket = (value: string) => {
-    if ((expression.length === 1 && expression === '0') || isFinish) {
-      setIsFinish(false)
-      setExpression(value)
-    } else {
-      const lastSign = expression.charAt(expression.length - 1)
-      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-      if (lastSignIsOperand) {
-        setExpression(expression + value)
-      } else if (lastSign === '(') {
-        setExpression(expression + value)
+    if (!isError) {
+      if ((expression.length === 1 && expression === '0') || isFinish) {
+        setIsFinish(false)
+        setExpression(value)
+      } else {
+        const lastSign = expression.charAt(expression.length - 1)
+        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+        if (lastSignIsOperand) {
+          setExpression(expression + value)
+        } else if (lastSign === '(') {
+          setExpression(expression + value)
+        }
       }
     }
   }
 
   const handleCloseBracket = (value: string) => {
     const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-    if (expression.length !== 1 && !lastSignIsOperand && expression.includes('(')) {
+    const { numberIsExist } = checkNumberExist(expression)
+    if (
+      expression.length !== 1 &&
+      !lastSignIsOperand &&
+      expression.includes('(') &&
+      numberIsExist
+    ) {
       setExpression(expression + value)
     }
   }
@@ -124,6 +140,8 @@ const CalculatorWrapper = () => {
   const handleNumber = (value: string) => {
     const operands = '+-/x%'
     const curValueIsOperand = operands.includes(value)
+    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
     const isDoubleZero = value === '00'
     if (expression === '0') {
       if (!isDoubleZero && !curValueIsOperand) {
@@ -131,15 +149,16 @@ const CalculatorWrapper = () => {
         setIsFinish(false)
       }
     } else {
-      if (isError) {
+      //sign as first
+      if (isError && !curValueIsOperand) {
         setIsError(false)
         setExpression(value)
       } else if (isFinish && !curValueIsOperand) {
         setIsFinish(false)
         setExpression(value)
       } else {
-        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-        if (!lastSignIsOperand) {
+        //sign need to be added
+        if (!lastSignIsOperand && !isError && !lastSignIsOpenBracket) {
           setExpression(expression + value)
           setIsFinish(false)
         } else {
@@ -155,7 +174,9 @@ const CalculatorWrapper = () => {
   }
 
   const handleCalculation = () => {
-    setHistory([...history, expression])
+    if (!isError) {
+      setHistory([...history, expression])
+    }
     const res = doCalcExpression(expression)
 
     if (res || res === 0) {

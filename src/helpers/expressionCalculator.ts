@@ -159,9 +159,28 @@ export function checkLastSignIsOperand(expr: string) {
   return { lastSignIsOperand }
 }
 
+export function checkLastSignIsOpenBrackets(expr: string) {
+  const lastInExpression = expr[expr.length - 1]
+  const lastSignIsOpenBracket = lastInExpression === '('
+  return { lastSignIsOpenBracket }
+}
+
+export function checkNumberExist(expr: string) {
+  const regExp = /[0-9]/
+  const numberIsExist = regExp.test(expr)
+  return { numberIsExist }
+}
+
 export function generateErrorMsg(msg: string) {
   const str = msg.split(':')
   return str[str.length - 1]
 }
 
-export default { doCalcExpression, checkCommaIsUnique, checkLastSignIsOperand, generateErrorMsg }
+export default {
+  doCalcExpression,
+  checkCommaIsUnique,
+  checkLastSignIsOperand,
+  checkLastSignIsOpenBrackets,
+  checkNumberExist,
+  generateErrorMsg,
+}
