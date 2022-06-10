@@ -14,5 +14,11 @@ const StyledContainer = styled.div`
   padding-top: ${({ theme }) => theme.spaces[5]}px;
   background-color: ${({ theme }) => theme.colors.body};
   transition: ${({ theme }) => theme.transition};
+  @media (max-width: ${(props) => props.theme.size.small}px) {
+    flex-direction: column;
+    align-items: center;
+    gap: ${({ theme }) => theme.spaces[3]}px;
+    height: auto;
+  }
 `
 export { StyledLayout, StyledContainer }

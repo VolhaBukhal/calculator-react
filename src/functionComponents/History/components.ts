@@ -13,6 +13,10 @@ const HistoryStyled = styled.div`
   margin-left: ${({ theme }) => theme.spaces[4]}px;
   padding-top: ${({ theme }) => theme.spaces[3]}px;
   border-radius: 20px;
+  @media (max-width: ${(props) => props.theme.size.small}px) {
+    width: 420px;
+    margin-left: 0;
+  }
 `
 
 const HistoryContent = styled.div`

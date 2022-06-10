@@ -9,6 +9,11 @@ const StyledHeader = styled.header`
   padding: ${({ theme }) => theme.spaces[3]}px;
   background-color: ${({ theme }) => theme.colors.secondaryDark};
   transition: ${({ theme }) => theme.transition};
+  @media (max-width: ${(props) => props.theme.size.small}px) {
+    flex-direction: column;
+    align-items: center;
+    gap: ${({ theme }) => theme.spaces[3]}px;
+  }
 `
 const Logo = styled.div`
   font-size: ${({ theme }) => theme.fontSizes[5]}px;
@@ -18,6 +23,9 @@ const Navigation = styled.ul`
   display: flex;
   justify-content: space-between;
   width: 40%;
+  @media (max-width: ${(props) => props.theme.size.small}px) {
+    width: 80%;
+  }
 `
 const NavItem = styled.li`
   font-size: ${({ theme }) => theme.fontSizes[2]}px;

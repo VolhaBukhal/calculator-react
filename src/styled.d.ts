@@ -1,5 +1,5 @@
 import 'styled-components'
-import { ITheme, ThemeEnum, ThemeBody } from './styled'
+import { ITheme, ThemeEnum, ThemeBody, MediaSizes } from './styled'
 
 declare module 'styled-components' {
   export interface DefaultTheme extends ITheme {
@@ -11,5 +11,6 @@ declare module 'styled-components' {
       black: string
       white: string
     }
+    size: MediaSizes
   }
 }
