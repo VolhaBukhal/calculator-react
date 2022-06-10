@@ -8,6 +8,7 @@ import {
   doCalcExpression,
   checkCommaIsUnique,
   checkLastSignIsOperand,
+  generateErrorMsg,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
@@ -24,6 +25,8 @@ enum SecondaryOperands {
 const CalculatorWrapper = () => {
   const [expression, setExpression] = useState<string>('0')
   const [history, setHistory] = useState<string[]>(localStorageGetHistory() || [])
+  const [isFinish, setIsFinish] = useState<boolean>(false)
+  const [isError, setIsError] = useState<boolean>(false)
 
   const handleExpressionValue = (pressedBtnValue: string) => {
     switch (pressedBtnValue) {
@@ -62,6 +65,8 @@ const CalculatorWrapper = () => {
 
   const handleClearDisplay = () => {
     setExpression('0')
+    setIsError(false)
+    setIsFinish(false)
   }
 
   const handleComma = (value: string) => {
@@ -95,7 +100,8 @@ const CalculatorWrapper = () => {
   }
 
   const handleOpenBracket = (value: string) => {
-    if (expression.length === 1 && expression === '0') {
+    if ((expression.length === 1 && expression === '0') || isFinish) {
+      setIsFinish(false)
       setExpression(value)
     } else {
       const lastSign = expression.charAt(expression.length - 1)
@@ -117,20 +123,31 @@ const CalculatorWrapper = () => {
 
   const handleNumber = (value: string) => {
     const operands = '+-/x%'
+    const curValueIsOperand = operands.includes(value)
     const isDoubleZero = value === '00'
     if (expression === '0') {
-      if (!isDoubleZero && !operands.includes(value)) {
+      if (!isDoubleZero && !curValueIsOperand) {
         setExpression(value)
+        setIsFinish(false)
       }
     } else {
-      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-      const isOperand = operands.includes(value)
-      if (!lastSignIsOperand) {
-        setExpression(expression + value)
+      if (isError) {
+        setIsError(false)
+        setExpression(value)
+      } else if (isFinish && !curValueIsOperand) {
+        setIsFinish(false)
+        setExpression(value)
       } else {
-        if (!isOperand) {
-          if (!isDoubleZero) {
-            setExpression(expression + value)
+        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+        if (!lastSignIsOperand) {
+          setExpression(expression + value)
+          setIsFinish(false)
+        } else {
+          if (!curValueIsOperand) {
+            if (!isDoubleZero) {
+              setExpression(expression + value)
+              setIsFinish(false)
+            }
           }
         }
       }
@@ -142,7 +159,15 @@ const CalculatorWrapper = () => {
     const res = doCalcExpression(expression)
 
     if (res || res === 0) {
-      setExpression(String(res))
+      if (String(res).includes('Error')) {
+        const errRes = generateErrorMsg(String(res))
+        setExpression(errRes)
+        setIsError(true)
+        setIsFinish(true)
+      } else {
+        setExpression(String(res))
+        setIsFinish(true)
+      }
     }
   }
 
@@ -155,7 +180,7 @@ const CalculatorWrapper = () => {
   return (
     <>
       <Wrapper>
-        <Display value={expression} />
+        <Display value={expression} error={isError} />
         <Keyboard handleButton={handleExpressionValue} />
       </Wrapper>
       <History historyData={history} />

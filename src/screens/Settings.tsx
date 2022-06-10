@@ -24,7 +24,6 @@ const options = [
 
 class Settings extends Component<SettingsProps> {
   handleClick = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log('handleClick in Settings: ', event.target.value)
     const curTheme = event.target.value
     this.props.toggleTheme(curTheme)
     localStorageSetTheme(curTheme)
