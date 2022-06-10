@@ -9,6 +9,8 @@ import {
   checkCommaIsUnique,
   checkLastSignIsOperand,
   generateErrorMsg,
+  checkLastSignIsOpenBrackets,
+  checkNumberExistAfterLastOpenBracket,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
@@ -80,51 +82,60 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   }
 
   handleComma = (value: string) => {
-    const curValue = this.state.expression
-    const { isCommaAlreadyExist } = checkCommaIsUnique(curValue)
-    if (!isCommaAlreadyExist) {
-      this.setState(({ expression }) => ({
-        expression: expression + value,
-      }))
+    const { expression, isError } = this.state
+    const { isCommaAlreadyExist } = checkCommaIsUnique(expression)
+    if (!isError) {
+      if (!isCommaAlreadyExist) {
+        this.setState(({ expression }) => ({
+          expression: expression + value,
+        }))
+      }
     }
   }
 
   handleBackOneSign = () => {
-    const curValue = this.state.expression
-    if (curValue.length > 1) {
-      const cuttedValue = curValue
-        .split('')
-        .splice(0, curValue.length - 1)
-        .join('')
-      this.setState({ expression: cuttedValue })
-    } else {
-      this.setState({ expression: '0' })
+    const { expression, isError } = this.state
+    if (!isError) {
+      if (expression.length > 1) {
+        const cuttedValue = expression
+          .split('')
+          .splice(0, expression.length - 1)
+          .join('')
+        this.setState({ expression: cuttedValue })
+      } else {
+        this.setState({ expression: '0' })
+      }
     }
   }
 
   handleOppositeSign = () => {
     let curValue = this.state.expression
-    if (curValue.includes('-')) {
-      curValue = curValue.split('').splice(1).join('')
-      this.setState({ expression: curValue })
-    } else {
-      if (curValue !== '0') {
-        this.setState({ expression: `-${curValue}` })
+    const { isError } = this.state
+    if (!isError) {
+      if (curValue.includes('-')) {
+        curValue = curValue.split('').splice(1).join('')
+        this.setState({ expression: curValue })
+      } else {
+        if (curValue !== '0') {
+          this.setState({ expression: `-${curValue}` })
+        }
       }
     }
   }
 
   handleOpenBracket = (value: string) => {
-    const { expression, isFinished } = this.state
-    if ((expression.length === 1 && expression === '0') || isFinished) {
-      this.setState({ expression: value, isFinished: false })
-    } else {
-      const lastSign = expression.charAt(expression.length - 1)
-      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-      if (lastSignIsOperand) {
-        this.setState({ expression: expression + value })
-      } else if (lastSign === '(') {
-        this.setState({ expression: expression + value })
+    const { expression, isFinished, isError } = this.state
+    if (!isError) {
+      if ((expression.length === 1 && expression === '0') || isFinished) {
+        this.setState({ expression: value, isFinished: false })
+      } else {
+        const lastSign = expression.charAt(expression.length - 1)
+        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+        if (lastSignIsOperand) {
+          this.setState({ expression: expression + value })
+        } else if (lastSign === '(') {
+          this.setState({ expression: expression + value })
+        }
       }
     }
   }
@@ -132,7 +143,13 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   handleCloseBracket = (value: string) => {
     const { expression } = this.state
     const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-    if (expression.length !== 1 && !lastSignIsOperand && expression.includes('(')) {
+    const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
+    if (
+      expression.length !== 1 &&
+      !lastSignIsOperand &&
+      expression.includes('(') &&
+      numberIsExist
+    ) {
       this.setState({ expression: expression + value })
     }
   }
@@ -141,19 +158,20 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     const { expression, isError, isFinished } = this.state
     const operands = '+-/x%'
     const curValueIsOperand = operands.includes(value)
+    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
     const isDoubleZero = value === '00'
     if (expression === '0') {
       if (!isDoubleZero && !curValueIsOperand) {
         this.setState({ expression: value, isFinished: false })
       }
     } else {
-      if (isError) {
+      if (isError && !curValueIsOperand) {
         this.setState({ expression: value, isError: false })
       } else if (isFinished && !curValueIsOperand) {
         this.setState({ expression: value, isFinished: false })
       } else {
-        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-        if (!lastSignIsOperand) {
+        if (!lastSignIsOperand && !isError && !lastSignIsOpenBracket) {
           this.setState(({ expression }) => ({
             expression: expression + value,
             isFinished: false,

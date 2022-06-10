@@ -9,7 +9,7 @@ import {
   checkCommaIsUnique,
   checkLastSignIsOperand,
   checkLastSignIsOpenBrackets,
-  checkNumberExist,
+  checkNumberExistAfterLastOpenBracket,
   generateErrorMsg,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
@@ -126,7 +126,7 @@ const CalculatorWrapper = () => {
 
   const handleCloseBracket = (value: string) => {
     const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-    const { numberIsExist } = checkNumberExist(expression)
+    const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
     if (
       expression.length !== 1 &&
       !lastSignIsOperand &&

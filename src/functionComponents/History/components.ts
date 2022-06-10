@@ -23,7 +23,7 @@ const HistoryContent = styled.div`
   height: 85%;
   margin-top: ${({ theme }) => theme.spaces[2]}px;
   padding: ${({ theme }) => theme.spaces[3]}px;
-  overflow-y: scroll;
+  overflow: auto;
   margin-right: ${({ theme }) => theme.spaces[1] / 2}px;
   &::-webkit-scrollbar {
     width: 7px;

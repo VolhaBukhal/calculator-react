@@ -165,9 +165,17 @@ export function checkLastSignIsOpenBrackets(expr: string) {
   return { lastSignIsOpenBracket }
 }
 
-export function checkNumberExist(expr: string) {
+export function checkLastSignIsCloseBrackets(expr: string) {
+  const lastInExpression = expr[expr.length - 1]
+  const lastSignIsCloseBracket = lastInExpression === ')'
+  return { lastSignIsCloseBracket }
+}
+
+export function checkNumberExistAfterLastOpenBracket(expr: string) {
+  const indexOfLastOpenBr = expr.lastIndexOf('(')
+  const subStrFromLastOpenBr = expr.substring(indexOfLastOpenBr)
   const regExp = /[0-9]/
-  const numberIsExist = regExp.test(expr)
+  const numberIsExist = regExp.test(subStrFromLastOpenBr)
   return { numberIsExist }
 }
 
@@ -181,6 +189,7 @@ export default {
   checkCommaIsUnique,
   checkLastSignIsOperand,
   checkLastSignIsOpenBrackets,
-  checkNumberExist,
+  checkLastSignIsCloseBrackets,
+  checkNumberExistAfterLastOpenBracket,
   generateErrorMsg,
 }
