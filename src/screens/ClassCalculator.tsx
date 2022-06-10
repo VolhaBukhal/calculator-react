@@ -3,11 +3,7 @@ import CalculatorWrapper from '@components/CalculatorWrapper/CalculatorWrapper'
 
 class ClassCalculator extends Component {
   render() {
-    return (
-      <>
-        <CalculatorWrapper />
-      </>
-    )
+    return <>{<CalculatorWrapper />}</>
   }
 }
 

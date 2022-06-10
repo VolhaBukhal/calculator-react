@@ -28,5 +28,4 @@ const DisplayStyled = styled.div<DisplayResProps>`
     }
   }
 `
-
 export { DisplayStyled }

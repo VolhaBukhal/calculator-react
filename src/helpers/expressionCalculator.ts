@@ -3,7 +3,6 @@ type CalculateArrType = Array<number | string>
 function generateArrFromStr(str: string): CalculateArrType {
   const strArr = str.trim().split('')
   //str without spaces
-  debugger
   let nakedStr = strArr.filter((i) => i !== '' && i !== ' ')
   const lastSymbolIsOperand = /\+|\-|\/|\=|\%|x/.test(nakedStr[nakedStr.length - 1])
   nakedStr = !lastSymbolIsOperand ? nakedStr : nakedStr.splice(0, nakedStr.length - 1)
@@ -41,7 +40,6 @@ function generateArrFromStr(str: string): CalculateArrType {
 
 //check if Brackets is paired
 export function checkBrackets(calculation: CalculateArrType) {
-  debugger
   const stack = []
   for (const el of calculation) {
     if (el == '(') {
@@ -51,20 +49,18 @@ export function checkBrackets(calculation: CalculateArrType) {
       if (stack.length > 0 && topOfStack !== el) {
         stack.pop()
       } else {
-        throw new Error('ExpressionError: Brackets must be paired')
+        throw new Error('ExpressionError: Brackets must be paired!!!')
       }
     }
   }
   if (!stack.length) {
     return true
   } else {
-    throw new Error('ExpressionError: Brackets must be paired')
+    throw new Error('ExpressionError: Brackets must be paired!!!')
   }
 }
 function doCalc(expr: CalculateArrType) {
   let calculation = expr
-  debugger
-
   const simple: Record<string, (a: number, b: number) => number> = {
     '+': (a: number, b: number) => a + b,
     '-': (a: number, b: number) => a - b,
@@ -91,7 +87,7 @@ function doCalc(expr: CalculateArrType) {
         operatorIsExist = true
       } else if (operatorIsExist) {
         if (curOperator == operator['/'] && currentEl === 0) {
-          throw new Error('TypeError: Division by zero.')
+          throw new Error('TypeError: Division by zero!!!')
         } else {
           const lastNumber = newCalculation[newCalculation.length - 1]
           const curValue: number = curOperator(lastNumber as number, currentEl as number)
@@ -110,7 +106,6 @@ function doCalc(expr: CalculateArrType) {
 }
 
 export function doCalcExpression(expr: string) {
-  debugger
   const calculation = generateArrFromStr(expr)
   // if brackets is paired continue
   try {
@@ -164,4 +159,37 @@ export function checkLastSignIsOperand(expr: string) {
   return { lastSignIsOperand }
 }
 
-export default { doCalcExpression, checkCommaIsUnique, checkLastSignIsOperand }
+export function checkLastSignIsOpenBrackets(expr: string) {
+  const lastInExpression = expr[expr.length - 1]
+  const lastSignIsOpenBracket = lastInExpression === '('
+  return { lastSignIsOpenBracket }
+}
+
+export function checkLastSignIsCloseBrackets(expr: string) {
+  const lastInExpression = expr[expr.length - 1]
+  const lastSignIsCloseBracket = lastInExpression === ')'
+  return { lastSignIsCloseBracket }
+}
+
+export function checkNumberExistAfterLastOpenBracket(expr: string) {
+  const indexOfLastOpenBr = expr.lastIndexOf('(')
+  const subStrFromLastOpenBr = expr.substring(indexOfLastOpenBr)
+  const regExp = /[0-9]/
+  const numberIsExist = regExp.test(subStrFromLastOpenBr)
+  return { numberIsExist }
+}
+
+export function generateErrorMsg(msg: string) {
+  const str = msg.split(':')
+  return str[str.length - 1]
+}
+
+export default {
+  doCalcExpression,
+  checkCommaIsUnique,
+  checkLastSignIsOperand,
+  checkLastSignIsOpenBrackets,
+  checkLastSignIsCloseBrackets,
+  checkNumberExistAfterLastOpenBracket,
+  generateErrorMsg,
+}

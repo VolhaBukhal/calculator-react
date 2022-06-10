@@ -8,6 +8,9 @@ import {
   doCalcExpression,
   checkCommaIsUnique,
   checkLastSignIsOperand,
+  generateErrorMsg,
+  checkLastSignIsOpenBrackets,
+  checkNumberExistAfterLastOpenBracket,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
@@ -24,6 +27,8 @@ enum SecondaryOperands {
 type CalculatorWrapperState = {
   expression: string
   history: Array<string>
+  isError: boolean
+  isFinished: boolean
 }
 
 class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWrapperState> {
@@ -32,6 +37,8 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     this.state = {
       expression: '0',
       history: [],
+      isError: false,
+      isFinished: false,
     }
   }
 
@@ -71,55 +78,64 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   }
 
   handleClearDisplay = () => {
-    this.setState({ expression: '0' })
+    this.setState({ expression: '0', isError: false, isFinished: false })
   }
 
   handleComma = (value: string) => {
-    const curValue = this.state.expression
-    const { isCommaAlreadyExist } = checkCommaIsUnique(curValue)
-    if (!isCommaAlreadyExist) {
-      this.setState(({ expression }) => ({
-        expression: expression + value,
-      }))
+    const { expression, isError } = this.state
+    const { isCommaAlreadyExist } = checkCommaIsUnique(expression)
+    if (!isError) {
+      if (!isCommaAlreadyExist) {
+        this.setState(({ expression }) => ({
+          expression: expression + value,
+        }))
+      }
     }
   }
 
   handleBackOneSign = () => {
-    const curValue = this.state.expression
-    if (curValue.length > 1) {
-      const cuttedValue = curValue
-        .split('')
-        .splice(0, curValue.length - 1)
-        .join('')
-      this.setState({ expression: cuttedValue })
-    } else {
-      this.setState({ expression: '0' })
+    const { expression, isError } = this.state
+    if (!isError) {
+      if (expression.length > 1) {
+        const cuttedValue = expression
+          .split('')
+          .splice(0, expression.length - 1)
+          .join('')
+        this.setState({ expression: cuttedValue })
+      } else {
+        this.setState({ expression: '0' })
+      }
     }
   }
 
   handleOppositeSign = () => {
     let curValue = this.state.expression
-    if (curValue.includes('-')) {
-      curValue = curValue.split('').splice(1).join('')
-      this.setState({ expression: curValue })
-    } else {
-      if (curValue !== '0') {
-        this.setState({ expression: `-${curValue}` })
+    const { isError } = this.state
+    if (!isError) {
+      if (curValue.includes('-')) {
+        curValue = curValue.split('').splice(1).join('')
+        this.setState({ expression: curValue })
+      } else {
+        if (curValue !== '0') {
+          this.setState({ expression: `-${curValue}` })
+        }
       }
     }
   }
 
   handleOpenBracket = (value: string) => {
-    const { expression } = this.state
-    if (expression.length === 1 && expression === '0') {
-      this.setState({ expression: value })
-    } else {
-      const lastSign = expression.charAt(expression.length - 1)
-      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-      if (lastSignIsOperand) {
-        this.setState({ expression: expression + value })
-      } else if (lastSign === '(') {
-        this.setState({ expression: expression + value })
+    const { expression, isFinished, isError } = this.state
+    if (!isError) {
+      if ((expression.length === 1 && expression === '0') || isFinished) {
+        this.setState({ expression: value, isFinished: false })
+      } else {
+        const lastSign = expression.charAt(expression.length - 1)
+        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+        if (lastSignIsOperand) {
+          this.setState({ expression: expression + value })
+        } else if (lastSign === '(') {
+          this.setState({ expression: expression + value })
+        }
       }
     }
   }
@@ -127,32 +143,47 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   handleCloseBracket = (value: string) => {
     const { expression } = this.state
     const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-    if (expression.length !== 1 && !lastSignIsOperand && expression.includes('(')) {
+    const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
+    if (
+      expression.length !== 1 &&
+      !lastSignIsOperand &&
+      expression.includes('(') &&
+      numberIsExist
+    ) {
       this.setState({ expression: expression + value })
     }
   }
 
   handleNumber = (value: string) => {
-    const { expression } = this.state
+    const { expression, isError, isFinished } = this.state
     const operands = '+-/x%'
+    const curValueIsOperand = operands.includes(value)
+    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
     const isDoubleZero = value === '00'
     if (expression === '0') {
-      if (!isDoubleZero && !operands.includes(value)) {
-        this.setState({ expression: value })
+      if (!isDoubleZero && !curValueIsOperand) {
+        this.setState({ expression: value, isFinished: false })
       }
     } else {
-      const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-      const isOperand = operands.includes(value)
-      if (!lastSignIsOperand) {
-        this.setState(({ expression }) => ({
-          expression: expression + value,
-        }))
+      if (isError && !curValueIsOperand) {
+        this.setState({ expression: value, isError: false })
+      } else if (isFinished && !curValueIsOperand) {
+        this.setState({ expression: value, isFinished: false })
       } else {
-        if (!isOperand) {
-          if (!isDoubleZero) {
-            this.setState(({ expression }) => ({
-              expression: expression + value,
-            }))
+        if (!lastSignIsOperand && !isError && !lastSignIsOpenBracket) {
+          this.setState(({ expression }) => ({
+            expression: expression + value,
+            isFinished: false,
+          }))
+        } else {
+          if (!curValueIsOperand) {
+            if (!isDoubleZero) {
+              this.setState(({ expression }) => ({
+                expression: expression + value,
+                isFinished: false,
+              }))
+            }
           }
         }
       }
@@ -172,7 +203,12 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     const res = doCalcExpression(this.state.expression)
 
     if (res || res === 0) {
-      this.setState({ expression: String(res) })
+      if (String(res).includes('Error')) {
+        const errRes = generateErrorMsg(String(res))
+        this.setState({ expression: errRes, isError: true, isFinished: true })
+      } else {
+        this.setState({ expression: String(res), isFinished: true })
+      }
     }
   }
 
@@ -182,11 +218,11 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   }
 
   render() {
-    const { expression, history } = this.state
+    const { expression, history, isError } = this.state
     return (
       <>
         <Wrapper>
-          <Display value={expression} />
+          <Display error={isError} value={expression} />
           <Keyboard handleButton={this.handleExpressionValue} />
         </Wrapper>
         <History historyData={history} />

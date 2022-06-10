@@ -8,6 +8,9 @@ export const SettingsWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: ${({ theme }) => theme.spaces[5]}px;
+  @media (max-width: ${(props) => props.theme.size.small}px) {
+    height: calc(100vh - 114.4px - 64px);
+  }
 `
 
 export const SettingsHeader = styled.h2`

@@ -3,6 +3,7 @@ import { DisplayStyled } from './components'
 
 type DisplayProps = {
   value: string
+  error: boolean
 }
 
 class Display extends Component<DisplayProps> {
@@ -11,8 +12,8 @@ class Display extends Component<DisplayProps> {
   }
 
   render() {
-    const { value } = this.props
-    return <DisplayStyled>{value}</DisplayStyled>
+    const { value, error } = this.props
+    return <DisplayStyled error={error}>{value}</DisplayStyled>
   }
 }
 

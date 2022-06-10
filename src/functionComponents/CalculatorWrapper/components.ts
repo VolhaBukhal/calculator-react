@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  min-width: 400px;
+  min-width: 420px;
   max-width: 420px;
   height: 430px;
   background-color: ${({ theme }) => theme.colors.secondaryDarkGrey};

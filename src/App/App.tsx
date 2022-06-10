@@ -8,7 +8,7 @@ import FunctionCalculator from '@/screens/FunctionCalculator'
 import PageNotFound from '@/screens/PageNotFound'
 import ErrorBoundary from '@components/ErrorBoundary/ErrorBoundary'
 import { ThemeProvider, DefaultTheme } from 'styled-components'
-import { baseTheme as theme, darkTheme, lightTheme, coloredTheme } from '@/theme'
+import { darkTheme, lightTheme, coloredTheme } from '@/theme'
 import { localStorageGetTheme } from '@helpers/localStorage'
 
 type AppState = {
@@ -29,9 +29,7 @@ class App extends Component<Record<string, unknown>, AppState> {
   }
 
   toggleTheme = (curTheme: string) => {
-    this.setState({ theme: ThemeList[curTheme as ThemeListKeys] }, () => {
-      console.log('chosen theme:', theme)
-    })
+    this.setState({ theme: ThemeList[curTheme as ThemeListKeys] }, () => {})
   }
 
   componentDidMount() {

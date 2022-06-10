@@ -20,12 +20,20 @@ const body = '#6D84B1' //body
 const buttonGreyLight = '#d3d7e3'
 const buttonGreyDark = '#374b57'
 
+const size = {
+  xs: 550,
+  small: 768,
+  med: 992,
+  large: 1200,
+}
+
 export const baseTheme: ITheme = {
   boxShadows: 'box-shadow: 0px 4px 24px -8px rgba(0,0,0,0.75)',
   font: font,
   body: '#6d84b1',
   spaces: [0, 4, 8, 16, 32, 64, 128],
   fontSizes: [12, 14, 16, 20, 24, 32, 40, 56, 72, 80],
+  size: size,
   colors: {
     primary,
     secondary,
