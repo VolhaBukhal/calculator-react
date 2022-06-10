@@ -9,6 +9,7 @@
         "@screens/*": ["screens/*"],
         "@assets/*": ["assets/*"],
         "@helpers/*": ["helpers/*"],
+        "@functionComponents/*":["functionComponents/*"],
        }
   }
 }
