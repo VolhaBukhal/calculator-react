@@ -7,7 +7,7 @@ import History from '@functionComponents/History'
 import {
   doCalcExpression,
   checkCommaIsUnique,
-  checkLastSignIsOperand,
+  checkLastSignIsOperator,
   checkLastSignIsOpenBrackets,
   checkNumberExistAfterLastOpenBracket,
   generateErrorMsg,
@@ -114,8 +114,8 @@ const CalculatorWrapper = () => {
         setExpression(value)
       } else {
         const lastSign = expression.charAt(expression.length - 1)
-        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-        if (lastSignIsOperand) {
+        const { lastSignIsOperator } = checkLastSignIsOperator(expression)
+        if (lastSignIsOperator) {
           setExpression(expression + value)
         } else if (lastSign === '(') {
           setExpression(expression + value)
@@ -125,11 +125,11 @@ const CalculatorWrapper = () => {
   }
 
   const handleCloseBracket = (value: string) => {
-    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
     if (
       expression.length !== 1 &&
-      !lastSignIsOperand &&
+      !lastSignIsOperator &&
       expression.includes('(') &&
       numberIsExist
     ) {
@@ -140,7 +140,7 @@ const CalculatorWrapper = () => {
   const handleNumber = (value: string) => {
     const operands = '+-/x%'
     const curValueIsOperand = operands.includes(value)
-    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
     const isDoubleZero = value === '00'
     if (expression === '0') {
@@ -158,7 +158,7 @@ const CalculatorWrapper = () => {
         setExpression(value)
       } else {
         //sign need to be added
-        if (!lastSignIsOperand && !isError && !lastSignIsOpenBracket) {
+        if (!lastSignIsOperator && !isError && !lastSignIsOpenBracket) {
           setExpression(expression + value)
           setIsFinish(false)
         } else {

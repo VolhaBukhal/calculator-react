@@ -4,8 +4,8 @@ function generateArrFromStr(str: string): CalculateArrType {
   const strArr = str.trim().split('')
   //str without spaces
   let nakedStr = strArr.filter((i) => i !== '' && i !== ' ')
-  const lastSymbolIsOperand = /\+|\-|\/|\=|\%|x/.test(nakedStr[nakedStr.length - 1])
-  nakedStr = !lastSymbolIsOperand ? nakedStr : nakedStr.splice(0, nakedStr.length - 1)
+  const lastSymbolIsOperator = /\+|\-|\/|\=|\%|x/.test(nakedStr[nakedStr.length - 1])
+  nakedStr = !lastSymbolIsOperator ? nakedStr : nakedStr.splice(0, nakedStr.length - 1)
 
   const symbolStr = '/x+-%()'
   const calculation: CalculateArrType = []
@@ -152,11 +152,11 @@ export function checkCommaIsUnique(expr: string) {
   return { isCommaAlreadyExist }
 }
 
-export function checkLastSignIsOperand(expr: string) {
-  const operands = '+-/x%'
+export function checkLastSignIsOperator(expr: string) {
+  const operators = '+-/x%'
   const lastInExpression = expr[expr.length - 1]
-  const lastSignIsOperand = operands.includes(lastInExpression)
-  return { lastSignIsOperand }
+  const lastSignIsOperator = operators.includes(lastInExpression)
+  return { lastSignIsOperator }
 }
 
 export function checkLastSignIsOpenBrackets(expr: string) {
@@ -187,7 +187,7 @@ export function generateErrorMsg(msg: string) {
 export default {
   doCalcExpression,
   checkCommaIsUnique,
-  checkLastSignIsOperand,
+  checkLastSignIsOperator,
   checkLastSignIsOpenBrackets,
   checkLastSignIsCloseBrackets,
   checkNumberExistAfterLastOpenBracket,
