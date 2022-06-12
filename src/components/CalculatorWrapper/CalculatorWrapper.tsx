@@ -7,7 +7,7 @@ import History from '@components/History'
 import {
   doCalcExpression,
   checkCommaIsUnique,
-  checkLastSignIsOperand,
+  checkLastSignIsOperator,
   generateErrorMsg,
   checkLastSignIsOpenBrackets,
   checkNumberExistAfterLastOpenBracket,
@@ -130,8 +130,8 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
         this.setState({ expression: value, isFinished: false })
       } else {
         const lastSign = expression.charAt(expression.length - 1)
-        const { lastSignIsOperand } = checkLastSignIsOperand(expression)
-        if (lastSignIsOperand) {
+        const { lastSignIsOperator } = checkLastSignIsOperator(expression)
+        if (lastSignIsOperator) {
           this.setState({ expression: expression + value })
         } else if (lastSign === '(') {
           this.setState({ expression: expression + value })
@@ -142,11 +142,11 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
 
   handleCloseBracket = (value: string) => {
     const { expression } = this.state
-    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
     if (
       expression.length !== 1 &&
-      !lastSignIsOperand &&
+      !lastSignIsOperator &&
       expression.includes('(') &&
       numberIsExist
     ) {
@@ -156,28 +156,28 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
 
   handleNumber = (value: string) => {
     const { expression, isError, isFinished } = this.state
-    const operands = '+-/x%'
-    const curValueIsOperand = operands.includes(value)
-    const { lastSignIsOperand } = checkLastSignIsOperand(expression)
+    const operators = '+-/x%'
+    const curValueIsOperator = operators.includes(value)
+    const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
     const isDoubleZero = value === '00'
     if (expression === '0') {
-      if (!isDoubleZero && !curValueIsOperand) {
+      if (!isDoubleZero && !curValueIsOperator) {
         this.setState({ expression: value, isFinished: false })
       }
     } else {
-      if (isError && !curValueIsOperand) {
+      if (isError && !curValueIsOperator) {
         this.setState({ expression: value, isError: false })
-      } else if (isFinished && !curValueIsOperand) {
+      } else if (isFinished && !curValueIsOperator) {
         this.setState({ expression: value, isFinished: false })
       } else {
-        if (!lastSignIsOperand && !isError && !lastSignIsOpenBracket) {
+        if (!lastSignIsOperator && !isError && !lastSignIsOpenBracket) {
           this.setState(({ expression }) => ({
             expression: expression + value,
             isFinished: false,
           }))
         } else {
-          if (!curValueIsOperand) {
+          if (!curValueIsOperator) {
             if (!isDoubleZero) {
               this.setState(({ expression }) => ({
                 expression: expression + value,
