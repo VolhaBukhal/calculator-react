@@ -41,31 +41,22 @@ class App extends Component<Record<string, unknown>, AppState> {
     const { theme } = this.state
     return (
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path={routes.HOME_PAGE_ROUTE} element={<Layout />}>
-            <Route
-              index
-              element={
-                <ErrorBoundary>
-                  <ClassCalculator />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path={routes.FUNCTION_COMPONENTS_PAGE_ROUTE}
-              element={
-                <ErrorBoundary>
-                  <FunctionCalculator />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path={routes.SETTINGS_PAGE_ROUTE}
-              element={<Settings toggleTheme={this.toggleTheme} />}
-            />
-            <Route path={routes.NOT_FOUND_PAGE_ROUTE} element={<PageNotFound />} />
-          </Route>
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path={routes.HOME_PAGE_ROUTE} element={<Layout />}>
+              <Route index element={<ClassCalculator />} />
+              <Route
+                path={routes.FUNCTION_COMPONENTS_PAGE_ROUTE}
+                element={<FunctionCalculator />}
+              />
+              <Route
+                path={routes.SETTINGS_PAGE_ROUTE}
+                element={<Settings toggleTheme={this.toggleTheme} />}
+              />
+              <Route path={routes.NOT_FOUND_PAGE_ROUTE} element={<PageNotFound />} />
+            </Route>
+          </Routes>
+        </ErrorBoundary>
       </ThemeProvider>
     )
   }

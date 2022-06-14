@@ -8,7 +8,7 @@ const fontStyles = css`
 
 const HistoryStyled = styled.div`
   width: 200px;
-  height: 430px;
+  height: 460px;
   background-color: ${({ theme }) => theme.colors.secondaryLightGrey};
   margin-left: ${({ theme }) => theme.spaces[4]}px;
   padding-top: ${({ theme }) => theme.spaces[3]}px;
