@@ -216,6 +216,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
           this.setState({ expression: value, isFinished: false })
         }
       } else {
+        debugger
         if (!lastSignIsOperator && !isError && !lastSignIsOpenBracket) {
           this.setState(({ expression }) => ({
             expression: expression + value,
@@ -234,8 +235,8 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       }
     }
 
-    //immediateResult
-    if (curValueIsOperator && !lastSignIsCloseBracket) {
+    // immediateResult
+    if (curValueIsOperator && !lastSignIsCloseBracket && !lastSignIsOperator) {
       this.handleImmediateResult(currentOperator)
     }
 

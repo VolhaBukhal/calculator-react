@@ -2,7 +2,8 @@ type CalculateArrType = Array<number | string>
 
 function generateArrFromStr(str: string): CalculateArrType {
   const strArr = str.trim().split('')
-  //str without spaces
+
+  // str without spaces
   let nakedStr = strArr.filter((i) => i !== '' && i !== ' ')
   const lastSymbolIsOperator = /\+|\-|\/|\=|\%|x/.test(nakedStr[nakedStr.length - 1])
   nakedStr = !lastSymbolIsOperator ? nakedStr : nakedStr.splice(0, nakedStr.length - 1)
@@ -28,7 +29,7 @@ function generateArrFromStr(str: string): CalculateArrType {
   if (current !== '') {
     calculation.push(+current)
   }
-  //check negative sign in the beginning
+  // check negative sign in the beginning
   if (calculation[0] === '-') {
     const temp = calculation[1] as number
     calculation[1] = temp * -1
@@ -38,7 +39,7 @@ function generateArrFromStr(str: string): CalculateArrType {
   }
 }
 
-//check if Brackets is paired
+// check if Brackets is paired
 export function checkBrackets(calculation: CalculateArrType) {
   const stack = []
   for (const el of calculation) {
@@ -72,36 +73,12 @@ function doCalc(expr: CalculateArrType) {
     '%': (a: number, b: number) => a % b,
   }
 
-  // const simple: Record<string, (value: number) => void> = {
-  //   '+': (value: number) => {
-  //     calculator.executeCommand(new AddCommand(value))
-  //   },
-  //   '-': (value: number) => {
-  //     calculator.executeCommand(new Subtract(value))
-  //   },
-  // }
-  // const complicated: Record<string, (value: number) => void> = {
-  //   x: (value: number) => {
-  //     calculator.executeCommand(new Multiply(value))
-  //   },
-  //   '/': (value: number) => {
-  //     calculator.executeCommand(new Divide(value))
-  //   },
-  //   '%': (value: number) => {
-  //     calculator.executeCommand(new Remainder(value))
-  //   },
-  // }
-
   const operators = [complicated, simple]
 
   let newCalculation: CalculateArrType = []
   let operatorIsExist = false
   let curOperator: (a: number, b: number) => number
   curOperator = (a: number, b: number) => a + b
-
-  // let curOperator: (value: number) => void
-  // curOperator =  (value: number) => {
-  //   calculator.executeCommand(new AddCommand(value))
 
   for (const operator of operators) {
     for (let i = 0; i < calculation.length; i++) {
@@ -140,7 +117,7 @@ export function doCalcExpression(expr: string) {
     if (calculation.includes('(') || calculation.includes(')')) {
       const bracketsIsValid = checkBrackets(calculation)
       if (bracketsIsValid) {
-        //make finding the brackets and calculate the inside brackets expression while calculation length will not be equal to 1
+        // make finding the brackets and calculate the inside brackets expression while calculation length will not be equal to 1
         while (calculation.length !== 1) {
           let indexOfCloseBr: number | null = calculation.indexOf(')') // find first close bracket
           const tempArr = calculation.slice(0, indexOfCloseBr)

@@ -21,9 +21,6 @@ const HistoryStyled = styled.div`
 
 const HistoryContent = styled.div`
   height: 85%;
-  /* width: 180px; */
-  /* margin-top: ${({ theme }) => theme.spaces[2]}px; */
-  /* padding: ${({ theme }) => theme.spaces[3]}px; */
   padding-right: ${({ theme }) => theme.spaces[3]}px;
   margin: ${({ theme }) => theme.spaces[3]}px;
   overflow: auto;

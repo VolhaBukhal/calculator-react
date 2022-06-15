@@ -11,12 +11,12 @@ const error = '#c86464'
 const primary = '#6d84b1'
 const secondary = '#6c5b7b'
 const secondaryLight = '#6a6b7b'
-const secondaryDark = '#213055' //header
-const secondaryGrey = '#787C87' //operand's button bg
+const secondaryDark = '#213055' // header
+const secondaryGrey = '#787C87' // operand's button bg
 const secondaryDarkGrey = '#374B57' // calculator bg
-const secondaryLightGrey = '#D8E6F2' //display and history bg
-const textGrey = '#525A66' //grey fonts
-const body = '#6D84B1' //body
+const secondaryLightGrey = '#D8E6F2' // display and history bg
+const textGrey = '#525A66' // grey fonts
+const body = '#6D84B1' // body
 const buttonGreyLight = '#d3d7e3'
 const buttonGreyDark = '#374b57'
 

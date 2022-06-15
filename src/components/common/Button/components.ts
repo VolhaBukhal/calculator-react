@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type ButtonTypes = {
-  buttonType: string //number, operand
+  buttonType: string // number, operand
   width?: string
   height?: string
 }
