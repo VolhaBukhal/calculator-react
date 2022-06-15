@@ -22,13 +22,37 @@ class Calculator {
       this.value = command.undo(this.value)
     }
   }
-  clear() {
-    this.value = 0
-    this.history = []
-  }
 
   setValue(value: number) {
     this.value = value
+  }
+}
+
+class ClearCommand implements Command {
+  tempValue = 0
+  execute(currentValue: number) {
+    this.tempValue = currentValue
+    return 0
+  }
+  undo() {
+    return this.tempValue
+  }
+}
+
+class setValueCommand implements Command {
+  valueToSet: number
+  tempValue: number
+  constructor(valueToSet: number) {
+    this.valueToSet = valueToSet
+    this.tempValue = 0
+  }
+
+  execute(currentValue: number) {
+    this.tempValue = currentValue
+    return this.valueToSet
+  }
+  undo() {
+    return this.tempValue
   }
 }
 
@@ -108,4 +132,13 @@ class RemainderCommand implements Command {
   }
 }
 
-export { Calculator, AddCommand, SubtractCommand, MultiplyCommand, DivideCommand, RemainderCommand }
+export {
+  Calculator,
+  AddCommand,
+  SubtractCommand,
+  MultiplyCommand,
+  DivideCommand,
+  RemainderCommand,
+  ClearCommand,
+  setValueCommand,
+}

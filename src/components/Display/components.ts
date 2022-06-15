@@ -2,10 +2,7 @@ import styled from 'styled-components'
 
 type DisplayResProps = {
   error: boolean
-}
-
-type DisplayTempResProps = {
-  result: boolean
+  result: string
 }
 
 const DisplayStyled = styled.div<DisplayResProps>`
@@ -14,7 +11,11 @@ const DisplayStyled = styled.div<DisplayResProps>`
   background-color: ${({ theme }) => theme.colors.secondaryLightGrey};
   border-radius: 10px;
   color: ${(props) =>
-    props.error ? props.theme.colors.error : props.theme.colors.secondaryDarkGrey};
+    props.error
+      ? props.theme.colors.error
+      : !!props.result
+      ? props.theme.colors.secondaryDarkGrey
+      : props.theme.colors.black};
   font-size: ${(props) =>
     props.error ? `${props.theme.fontSizes[4]}px` : `${props.theme.fontSizes[5]}px`};
   padding: ${({ theme }) => theme.spaces[3]}px;
@@ -32,13 +33,13 @@ const DisplayStyled = styled.div<DisplayResProps>`
       background-color: ${({ theme }) => theme.colors.secondaryDarkGrey};
     }
   }
+
+  div {
+    align-self: flex-end;
+    font-size: ${({ theme }) => theme.fontSizes[5]}px;
+    color: ${({ theme }) => theme.colors.black};
+    display: ${({ result }) => (!!result ? 'block' : 'none')};
+  }
 `
 
-const DisplayTempRes = styled.div<DisplayTempResProps>`
-  align-self: flex-end;
-  font-size: ${({ theme }) => theme.fontSizes[5]}px;
-  color: ${({ theme }) => theme.colors.black};
-  display: ${({ result }) => (result ? 'block' : 'none')};
-`
-
-export { DisplayStyled, DisplayTempRes }
+export { DisplayStyled }

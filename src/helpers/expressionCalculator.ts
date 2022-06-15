@@ -213,8 +213,7 @@ export function checkExprContainsBracket(expr: string) {
 }
 
 export function getLastNumberInExpr(expr: string) {
-  const operators = /\+|\-|\/|\%|x|\(|\)/
-  const arr = expr.split(operators)
+  const arr = generateArrFromStr(expr)
   const lastNumber = Number(arr[arr.length - 1])
   return { lastNumber }
 }

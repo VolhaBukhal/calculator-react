@@ -21,8 +21,11 @@ const HistoryStyled = styled.div`
 
 const HistoryContent = styled.div`
   height: 85%;
-  margin-top: ${({ theme }) => theme.spaces[2]}px;
-  padding: ${({ theme }) => theme.spaces[3]}px;
+  /* width: 180px; */
+  /* margin-top: ${({ theme }) => theme.spaces[2]}px; */
+  /* padding: ${({ theme }) => theme.spaces[3]}px; */
+  padding-right: ${({ theme }) => theme.spaces[3]}px;
+  margin: ${({ theme }) => theme.spaces[3]}px;
   overflow: auto;
   margin-right: ${({ theme }) => theme.spaces[1] / 2}px;
   &::-webkit-scrollbar {
@@ -54,5 +57,6 @@ const Divider = styled.div`
 const HistoryItem = styled.p`
   ${fontStyles};
   text-align: right;
+  white-space: nowrap;
 `
 export { HistoryStyled, HistoryHeading, Divider, HistoryContent, HistoryItem }

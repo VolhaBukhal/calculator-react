@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { DisplayStyled, DisplayTempRes } from './components'
+import { DisplayStyled } from './components'
 
 type DisplayProps = {
   value: string
@@ -15,9 +15,9 @@ class Display extends Component<DisplayProps> {
   render() {
     const { value, error, result } = this.props
     return (
-      <DisplayStyled error={error}>
+      <DisplayStyled error={error} result={result}>
         {value}
-        <DisplayTempRes result={!!result}>{result}</DisplayTempRes>
+        <div>{result}</div>
       </DisplayStyled>
     )
   }

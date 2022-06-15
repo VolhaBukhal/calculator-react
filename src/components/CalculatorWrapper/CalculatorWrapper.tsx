@@ -12,6 +12,7 @@ import {
   generateErrorMsg,
   checkLastSignIsOpenBrackets,
   checkNumberExistAfterLastOpenBracket,
+  checkLastSignIsCloseBrackets,
   getLastNumberInExpr,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
@@ -22,6 +23,7 @@ import {
   MultiplyCommand,
   DivideCommand,
   RemainderCommand,
+  ClearCommand,
 } from '@helpers/calculator'
 
 enum SecondaryOperators {
@@ -105,7 +107,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       result: '',
       currentOperator: '',
     })
-    this.calculator.clear()
+    this.calculator.executeCommand(new ClearCommand())
   }
 
   handleComma = (value: string) => {
@@ -124,11 +126,11 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     const { expression, isError } = this.state
     if (!isError) {
       if (expression.length > 1) {
-        const cuttedValue = expression
+        const cutValue = expression
           .split('')
           .splice(0, expression.length - 1)
           .join('')
-        this.setState({ expression: cuttedValue })
+        this.setState({ expression: cutValue })
       } else {
         this.setState({ expression: '0' })
       }
@@ -151,12 +153,13 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   }
 
   handleOpenBracket = (value: string) => {
-    const { expression, isFinished, isError, currentOperator } = this.state
+    const { expression, isFinished, isError } = this.state
+    const { lastSignIsOperator } = checkLastSignIsOperator(expression)
+
     if (!isError) {
-      if (value === '(') {
-        this.calculator.clear()
+      if (value === '(' && lastSignIsOperator) {
+        this.calculator.executeCommand(new ClearCommand())
         this.setState({ result: '0', currentOperator: '' })
-        this.handleImmediateResult(currentOperator)
       }
 
       if ((expression.length === 1 && expression === '0') || isFinished) {
@@ -177,15 +180,14 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     const { expression, currentOperator } = this.state
     const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
-    if (value === ')') {
-      this.handleImmediateResult(currentOperator)
-    }
     if (
       expression.length !== 1 &&
       !lastSignIsOperator &&
       expression.includes('(') &&
       numberIsExist
     ) {
+      this.setState({ currentOperator: '' })
+      this.handleImmediateResult(currentOperator)
       this.setState({ expression: expression + value })
     }
   }
@@ -196,6 +198,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     const curValueIsOperator = operators.includes(value)
     const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
+    const { lastSignIsCloseBracket } = checkLastSignIsCloseBrackets(expression)
     const isDoubleZero = value === '00'
     if (curValueIsOperator) {
       this.setState({ currentOperator: value })
@@ -209,7 +212,9 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       if (isError && !curValueIsOperator) {
         this.setState({ expression: value, isError: false })
       } else if (isFinished && !curValueIsOperator) {
-        this.setState({ expression: value, isFinished: false })
+        if (!isDoubleZero) {
+          this.setState({ expression: value, isFinished: false })
+        }
       } else {
         if (!lastSignIsOperator && !isError && !lastSignIsOpenBracket) {
           this.setState(({ expression }) => ({
@@ -230,14 +235,15 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }
 
     //immediateResult
-    if (curValueIsOperator) {
+    if (curValueIsOperator && !lastSignIsCloseBracket) {
       this.handleImmediateResult(currentOperator)
     }
 
     if (value === SecondaryOperators.EQUAL) {
       this.handleCalculation()
-      this.setState({ result: '' })
-      this.calculator.setValue(0)
+      this.calculator.executeCommand(new ClearCommand())
+      this.setState({ result: '', isFinished: true })
+      console.log('calc value after equal: ', this.calculator.value)
     }
   }
 
