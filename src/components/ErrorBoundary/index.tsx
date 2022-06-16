@@ -1,11 +1,12 @@
-import { Component, ReactNode } from 'react'
+import { Component, ReactNode, ErrorInfo } from 'react'
+
 import { ErrorWrapper, Heading } from './components'
 
-type ErrorBoundaryState = {
+interface ErrorBoundaryState {
   error: boolean
 }
 
-type ErrorBoundaryProps = {
+interface ErrorBoundaryProps {
   children: ReactNode
 }
 
@@ -20,6 +21,11 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static getDerivedStateFromError() {
     return { error: true }
   }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Uncaught error: ', error, errorInfo)
+  }
+
   render() {
     return (
       <>
@@ -35,4 +41,4 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-export default ErrorBoundary
+export { ErrorBoundary }

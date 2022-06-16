@@ -5,7 +5,7 @@ type DisplayResProps = {
   result: string
 }
 
-const DisplayStyled = styled.div<DisplayResProps>`
+export const DisplayStyled = styled.div<DisplayResProps>`
   width: 100%;
   height: 115px;
   background-color: ${({ theme }) => theme.colors.secondaryLightGrey};
@@ -41,5 +41,3 @@ const DisplayStyled = styled.div<DisplayResProps>`
     display: ${({ result }) => (!!result ? 'block' : 'none')};
   }
 `
-
-export { DisplayStyled }

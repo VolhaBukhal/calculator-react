@@ -1,17 +1,14 @@
 import { Component } from 'react'
+
 import { DisplayStyled } from './components'
 
-type DisplayProps = {
+interface DisplayProps {
   value: string
   result: string
   error: boolean
 }
 
 class Display extends Component<DisplayProps> {
-  constructor(props: DisplayProps) {
-    super(props)
-  }
-
   render() {
     const { value, error, result } = this.props
     return (
@@ -23,4 +20,4 @@ class Display extends Component<DisplayProps> {
   }
 }
 
-export default Display
+export { Display }

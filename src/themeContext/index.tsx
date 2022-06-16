@@ -1,6 +1,7 @@
 import React, { Component, createContext, Dispatch } from 'react'
-import { lightTheme, darkTheme, baseTheme as theme } from '@/theme'
 import { DefaultTheme } from 'styled-components'
+
+import { lightTheme, darkTheme, baseTheme as theme } from '@/theme'
 
 export const ThemeUserContext = createContext<{
   theme: DefaultTheme
@@ -39,4 +40,4 @@ class ThemeContextProvider extends Component<ThemeContextProps, ThemeContextStat
   }
 }
 
-export default ThemeContextProvider
+export { ThemeContextProvider }

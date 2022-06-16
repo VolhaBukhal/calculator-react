@@ -1,13 +1,7 @@
-const HOME_PAGE_ROUTE = '/'
-const SETTINGS_PAGE_ROUTE = '/settings'
-const CLASS_COMPONENTS_PAGE_ROUTE = '/'
-const FUNCTION_COMPONENTS_PAGE_ROUTE = '/function-component'
-const NOT_FOUND_PAGE_ROUTE = '*'
-
-export default {
-  HOME_PAGE_ROUTE,
-  SETTINGS_PAGE_ROUTE,
-  CLASS_COMPONENTS_PAGE_ROUTE,
-  FUNCTION_COMPONENTS_PAGE_ROUTE,
-  NOT_FOUND_PAGE_ROUTE,
+export enum PAGE_ROUTES {
+  HOME = '/',
+  SETTINGS = '/settings',
+  CLASS_COMPONENTS = '/',
+  FUNCTION_COMPONENTS = '/function-component',
+  NOT_FOUND = '*',
 }

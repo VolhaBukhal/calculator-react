@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
-import routes from '@constants/router'
+
+import { PAGE_ROUTES } from '@constants/router'
 
 const PageNotFound = () => {
   return (
     <>
       <div>Not Found Page</div>
       <button>
-        <Link to={routes.HOME_PAGE_ROUTE}>Back to main</Link>
+        <Link to={PAGE_ROUTES.HOME}>Back to main</Link>
       </button>
     </>
   )

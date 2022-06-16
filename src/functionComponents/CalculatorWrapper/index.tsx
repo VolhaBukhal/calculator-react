@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 
-import { Wrapper } from './components'
-import Display from '@functionComponents/Display'
-import Keyboard from '@functionComponents/Keyboard/Keyboard'
-import History from '@functionComponents/History'
+import { Display } from '@functionComponents/Display'
+import { Keyboard } from '@functionComponents/Keyboard'
+import { History } from '@functionComponents/History'
 
 import {
   doCalcExpression,
@@ -26,6 +25,8 @@ import {
 } from '@helpers/calculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
+import { Wrapper } from './components'
+
 enum SecondaryOperators {
   CLEAR_ALL = 'AC',
   EQUAL = '=',
@@ -44,15 +45,15 @@ enum MainOperators {
   REMAINDER = '%',
 }
 
+const calculator = new Calculator()
+
 const CalculatorWrapper = () => {
   const [expression, setExpression] = useState('0')
   const [currentOperator, setCurrentOperator] = useState('')
   const [result, setResult] = useState('')
-  const [history, setHistory] = useState<string[]>(localStorageGetHistory() || [])
-  const [isError, setIsError] = useState<boolean>(false)
-  const [isFinish, setIsFinish] = useState<boolean>(false)
-
-  const calculator = new Calculator()
+  const [history, setHistory] = useState(localStorageGetHistory() || [])
+  const [isError, setIsError] = useState(false)
+  const [isFinish, setIsFinish] = useState(false)
 
   const handleExpressionValue = (pressedBtnValue: string) => {
     switch (pressedBtnValue) {
@@ -157,7 +158,6 @@ const CalculatorWrapper = () => {
   const handleCloseBracket = (value: string) => {
     const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { numberIsExist } = checkNumberExistAfterLastOpenBracket(expression)
-    debugger
     if (
       expression.length !== 1 &&
       !lastSignIsOperator &&
@@ -177,7 +177,6 @@ const CalculatorWrapper = () => {
     const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
     const { lastSignIsCloseBracket } = checkLastSignIsCloseBrackets(expression)
     const isDoubleZero = value === '00'
-
     if (curValueIsOperator) {
       setCurrentOperator(value)
     }
@@ -212,7 +211,6 @@ const CalculatorWrapper = () => {
         }
       }
     }
-    debugger
     // immediateResult
     if (curValueIsOperator && !lastSignIsCloseBracket && !lastSignIsOperator) {
       handleImmediateResult(currentOperator)
@@ -276,7 +274,7 @@ const CalculatorWrapper = () => {
         break
 
       default:
-        calculator.executeCommand(new AddCommand(+lastNumber))
+        calculator.executeCommand(new AddCommand(lastNumber))
         setResult(calculator.value.toString())
     }
   }
@@ -298,4 +296,4 @@ const CalculatorWrapper = () => {
   )
 }
 
-export default CalculatorWrapper
+export { CalculatorWrapper }

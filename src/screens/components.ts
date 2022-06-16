@@ -49,5 +49,3 @@ export const SettingsSelect = styled.select`
     background-color: ${({ theme }) => theme.colors.text};
   }
 `
-
-export default { SettingsWrapper, SettingsHeader, SettingsButton, SettingsLabel, SettingsSelect }

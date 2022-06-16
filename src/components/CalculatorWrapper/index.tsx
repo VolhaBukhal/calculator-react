@@ -1,9 +1,9 @@
 import { Component } from 'react'
 
 import { Wrapper } from './components'
-import Display from '@components/Display'
-import Keyboard from '@components/Keyboard/Keyboard'
-import History from '@components/History'
+import { Display } from '@components/Display'
+import { Keyboard } from '@/components/Keyboard'
+import { History } from '@components/History'
 
 import {
   doCalcExpression,
@@ -44,7 +44,7 @@ enum MainOperators {
   REMAINDER = '%',
 }
 
-type CalculatorWrapperState = {
+interface CalculatorWrapperState {
   expression: string
   result: string
   currentOperator: string
@@ -216,7 +216,6 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
           this.setState({ expression: value, isFinished: false })
         }
       } else {
-        debugger
         if (!lastSignIsOperator && !isError && !lastSignIsOpenBracket) {
           this.setState(({ expression }) => ({
             expression: expression + value,
@@ -244,7 +243,6 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
       this.handleCalculation()
       this.calculator.executeCommand(new ClearCommand())
       this.setState({ result: '', isFinished: true })
-      console.log('calc value after equal: ', this.calculator.value)
     }
   }
 
@@ -277,7 +275,7 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
         break
 
       default:
-        this.calculator.executeCommand(new AddCommand(+lastNumber))
+        this.calculator.executeCommand(new AddCommand(lastNumber))
         this.setState({ result: this.calculator.value.toString() })
     }
   }
@@ -328,4 +326,4 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
   }
 }
 
-export default CalculatorWrapper
+export { CalculatorWrapper }

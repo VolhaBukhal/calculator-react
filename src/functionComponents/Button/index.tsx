@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react'
+
 import { ButtonStyled } from './components'
 
 type ButtonProps = {
@@ -11,7 +12,7 @@ type ButtonProps = {
 
 const Button = ({ value, buttonType, width, height, handleExpressionValue }: ButtonProps) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const value = (event.target as HTMLButtonElement).textContent
+    const value = event.currentTarget.textContent
     if (value) {
       handleExpressionValue(value)
     }
@@ -24,4 +25,4 @@ const Button = ({ value, buttonType, width, height, handleExpressionValue }: But
   )
 }
 
-export default Button
+export { Button }
