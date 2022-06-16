@@ -1,7 +1,8 @@
 import { Component, MouseEvent } from 'react'
+
 import { ButtonStyled } from './components'
 
-type ButtonProps = {
+interface ButtonProps {
   value: string
   buttonType: string
   width?: string
@@ -10,11 +11,8 @@ type ButtonProps = {
 }
 
 class Button extends Component<ButtonProps> {
-  constructor(props: ButtonProps) {
-    super(props)
-  }
   handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const value = (event.target as HTMLButtonElement).textContent
+    const value = event.currentTarget.textContent
     if (value) {
       this.props.handleExpressionValue(value)
     }
@@ -35,4 +33,4 @@ class Button extends Component<ButtonProps> {
   }
 }
 
-export default Button
+export { Button }

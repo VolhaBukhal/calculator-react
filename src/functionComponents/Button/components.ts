@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
 type ButtonTypes = {
-  buttonType: string //number, operand
+  buttonType: string // number, operand
   width?: string
   height?: string
 }
 
-const ButtonStyled = styled.button<ButtonTypes>`
+export const ButtonStyled = styled.button<ButtonTypes>`
   width: ${({ width = 50 }) => width}px;
   height: ${({ height = 70 }) => height}px;
   border: none;
@@ -30,5 +30,3 @@ const ButtonStyled = styled.button<ButtonTypes>`
     transform: scale(0.98);
   }
 `
-
-export { ButtonStyled }

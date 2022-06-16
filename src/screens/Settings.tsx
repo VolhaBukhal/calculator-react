@@ -1,9 +1,11 @@
 import { ChangeEvent, Component } from 'react'
+
 import {
   localStorageClear,
   localStorageSetTheme,
   localStorageGetTheme,
 } from '@/helpers/localStorage'
+
 import {
   SettingsWrapper,
   SettingsHeader,
@@ -12,8 +14,10 @@ import {
   SettingsSelect,
 } from './components'
 
-type SettingsProps = {
-  toggleTheme: (curTheme: string) => void
+import { ThemeListKeys } from '@/App'
+
+interface SettingsProps {
+  toggleTheme: (curTheme: ThemeListKeys) => void
 }
 
 const options = [
@@ -25,7 +29,7 @@ const options = [
 class Settings extends Component<SettingsProps> {
   handleClick = (event: ChangeEvent<HTMLSelectElement>) => {
     const curTheme = event.target.value
-    this.props.toggleTheme(curTheme)
+    this.props.toggleTheme(curTheme as ThemeListKeys)
     localStorageSetTheme(curTheme)
   }
 

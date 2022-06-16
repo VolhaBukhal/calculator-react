@@ -1,4 +1,5 @@
 import 'styled-components'
+
 import { ITheme, ThemeEnum, ThemeBody, MediaSizes } from './styled'
 
 declare module 'styled-components' {

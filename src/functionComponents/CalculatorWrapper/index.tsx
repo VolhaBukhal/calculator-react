@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Wrapper } from './components'
-import Display from '@functionComponents/Display'
-import Keyboard from '@functionComponents/Keyboard/Keyboard'
-import History from '@functionComponents/History'
+
+import { Display } from '@functionComponents/Display'
+import { Keyboard } from '@functionComponents/Keyboard'
+import { History } from '@functionComponents/History'
 
 import {
   doCalcExpression,
@@ -10,11 +10,24 @@ import {
   checkLastSignIsOperator,
   checkLastSignIsOpenBrackets,
   checkNumberExistAfterLastOpenBracket,
+  checkLastSignIsCloseBrackets,
+  getLastNumberInExpr,
   generateErrorMsg,
 } from '@helpers/expressionCalculator'
+import {
+  Calculator,
+  AddCommand,
+  SubtractCommand,
+  MultiplyCommand,
+  DivideCommand,
+  RemainderCommand,
+  ClearCommand,
+} from '@helpers/calculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
-enum SecondaryOperands {
+import { Wrapper } from './components'
+
+enum SecondaryOperators {
   CLEAR_ALL = 'AC',
   EQUAL = '=',
   COMMA = '.',
@@ -24,39 +37,47 @@ enum SecondaryOperands {
   CLOSE_BRACKET = ')',
 }
 
+enum MainOperators {
+  PLUS = '+',
+  MINUS = '-',
+  DIVIDE = '/',
+  MULTIPLY = 'x',
+  REMAINDER = '%',
+}
+
+const calculator = new Calculator()
+
 const CalculatorWrapper = () => {
-  const [expression, setExpression] = useState<string>('0')
-  const [history, setHistory] = useState<string[]>(localStorageGetHistory() || [])
-  const [isFinish, setIsFinish] = useState<boolean>(false)
-  const [isError, setIsError] = useState<boolean>(false)
+  const [expression, setExpression] = useState('0')
+  const [currentOperator, setCurrentOperator] = useState('')
+  const [result, setResult] = useState('')
+  const [history, setHistory] = useState(localStorageGetHistory() || [])
+  const [isError, setIsError] = useState(false)
+  const [isFinish, setIsFinish] = useState(false)
 
   const handleExpressionValue = (pressedBtnValue: string) => {
     switch (pressedBtnValue) {
-      case SecondaryOperands.CLEAR_ALL:
+      case SecondaryOperators.CLEAR_ALL:
         handleClearDisplay()
         break
 
-      case SecondaryOperands.EQUAL:
-        handleCalculation()
-        break
-
-      case SecondaryOperands.COMMA:
+      case SecondaryOperators.COMMA:
         handleComma(pressedBtnValue)
         break
 
-      case SecondaryOperands.CLEAR:
+      case SecondaryOperators.CLEAR:
         handleBackOneSign()
         break
 
-      case SecondaryOperands.OPPOSITE_SIGN:
+      case SecondaryOperators.OPPOSITE_SIGN:
         handleOppositeSign()
         break
 
-      case SecondaryOperands.OPEN_BRACKET:
+      case SecondaryOperators.OPEN_BRACKET:
         handleOpenBracket(pressedBtnValue)
         break
 
-      case SecondaryOperands.CLOSE_BRACKET:
+      case SecondaryOperators.CLOSE_BRACKET:
         handleCloseBracket(pressedBtnValue)
         break
 
@@ -69,6 +90,8 @@ const CalculatorWrapper = () => {
     setExpression('0')
     setIsError(false)
     setIsFinish(false)
+    setResult('')
+    setCurrentOperator('')
   }
 
   const handleComma = (value: string) => {
@@ -83,11 +106,11 @@ const CalculatorWrapper = () => {
   const handleBackOneSign = () => {
     if (!isError) {
       if (expression.length > 1) {
-        const cuttedValue = expression
+        const cutValue = expression
           .split('')
           .splice(0, expression.length - 1)
           .join('')
-        setExpression(cuttedValue)
+        setExpression(cutValue)
       } else {
         setExpression('0')
       }
@@ -108,7 +131,15 @@ const CalculatorWrapper = () => {
   }
 
   const handleOpenBracket = (value: string) => {
+    const { lastSignIsOperator } = checkLastSignIsOperator(expression)
+
     if (!isError) {
+      if (value === '(' && lastSignIsOperator) {
+        calculator.executeCommand(new ClearCommand())
+        setResult('0')
+        setCurrentOperator('')
+      }
+
       if ((expression.length === 1 && expression === '0') || isFinish) {
         setIsFinish(false)
         setExpression(value)
@@ -133,36 +164,45 @@ const CalculatorWrapper = () => {
       expression.includes('(') &&
       numberIsExist
     ) {
+      setCurrentOperator('')
+      handleImmediateResult(currentOperator)
       setExpression(expression + value)
     }
   }
 
   const handleNumber = (value: string) => {
     const operands = '+-/x%'
-    const curValueIsOperand = operands.includes(value)
+    const curValueIsOperator = operands.includes(value)
     const { lastSignIsOperator } = checkLastSignIsOperator(expression)
     const { lastSignIsOpenBracket } = checkLastSignIsOpenBrackets(expression)
+    const { lastSignIsCloseBracket } = checkLastSignIsCloseBrackets(expression)
     const isDoubleZero = value === '00'
+    if (curValueIsOperator) {
+      setCurrentOperator(value)
+    }
+
     if (expression === '0') {
-      if (!isDoubleZero && !curValueIsOperand) {
+      if (!isDoubleZero && !curValueIsOperator) {
         setExpression(value)
         setIsFinish(false)
       }
     } else {
-      //sign as first
-      if (isError && !curValueIsOperand) {
+      // sign as first
+      if (isError && !curValueIsOperator) {
         setIsError(false)
         setExpression(value)
-      } else if (isFinish && !curValueIsOperand) {
-        setIsFinish(false)
-        setExpression(value)
+      } else if (isFinish && !curValueIsOperator) {
+        if (!isDoubleZero) {
+          setIsFinish(false)
+          setExpression(value)
+        }
       } else {
-        //sign need to be added
+        // sign need to be added
         if (!lastSignIsOperator && !isError && !lastSignIsOpenBracket) {
           setExpression(expression + value)
           setIsFinish(false)
         } else {
-          if (!curValueIsOperand) {
+          if (!curValueIsOperator) {
             if (!isDoubleZero) {
               setExpression(expression + value)
               setIsFinish(false)
@@ -170,6 +210,17 @@ const CalculatorWrapper = () => {
           }
         }
       }
+    }
+    // immediateResult
+    if (curValueIsOperator && !lastSignIsCloseBracket && !lastSignIsOperator) {
+      handleImmediateResult(currentOperator)
+    }
+
+    if (value === SecondaryOperators.EQUAL) {
+      handleCalculation()
+      calculator.executeCommand(new ClearCommand())
+      setResult('')
+      setIsFinish(true)
     }
   }
 
@@ -188,7 +239,43 @@ const CalculatorWrapper = () => {
       } else {
         setExpression(String(res))
         setIsFinish(true)
+        setResult('')
+        setCurrentOperator('')
       }
+    }
+  }
+
+  const handleImmediateResult = (operator: string) => {
+    const { lastNumber } = getLastNumberInExpr(expression)
+    switch (operator) {
+      case MainOperators.MINUS:
+        calculator.executeCommand(new SubtractCommand(lastNumber))
+        setResult(calculator.value.toString())
+        break
+
+      case MainOperators.PLUS:
+        calculator.executeCommand(new AddCommand(lastNumber))
+        setResult(calculator.value.toString())
+        break
+
+      case MainOperators.DIVIDE:
+        calculator.executeCommand(new DivideCommand(lastNumber))
+        setResult(calculator.value.toFixed(3))
+        break
+
+      case MainOperators.MULTIPLY:
+        calculator.executeCommand(new MultiplyCommand(lastNumber))
+        setResult(calculator.value.toString())
+        break
+
+      case MainOperators.REMAINDER:
+        calculator.executeCommand(new RemainderCommand(lastNumber))
+        setResult(calculator.value.toString())
+        break
+
+      default:
+        calculator.executeCommand(new AddCommand(lastNumber))
+        setResult(calculator.value.toString())
     }
   }
 
@@ -201,7 +288,7 @@ const CalculatorWrapper = () => {
   return (
     <>
       <Wrapper>
-        <Display value={expression} error={isError} />
+        <Display value={expression} error={isError} result={result} />
         <Keyboard handleButton={handleExpressionValue} />
       </Wrapper>
       <History historyData={history} />
@@ -209,4 +296,4 @@ const CalculatorWrapper = () => {
   )
 }
 
-export default CalculatorWrapper
+export { CalculatorWrapper }

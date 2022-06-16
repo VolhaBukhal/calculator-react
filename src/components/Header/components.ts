@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledHeader = styled.header`
+export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -15,11 +15,11 @@ const StyledHeader = styled.header`
     gap: ${({ theme }) => theme.spaces[3]}px;
   }
 `
-const Logo = styled.div`
+export const Logo = styled.div`
   font-size: ${({ theme }) => theme.fontSizes[5]}px;
   padding-bottom: ${({ theme }) => theme.spaces[1]}px;
 `
-const Navigation = styled.ul`
+export const Navigation = styled.ul`
   display: flex;
   justify-content: space-between;
   width: 40%;
@@ -27,7 +27,7 @@ const Navigation = styled.ul`
     width: 80%;
   }
 `
-const NavItem = styled.li`
+export const NavItem = styled.li`
   font-size: ${({ theme }) => theme.fontSizes[2]}px;
   color: ${({ theme }) => theme.colors.text};
   list-style-type: none;
@@ -40,5 +40,3 @@ const NavItem = styled.li`
     cursor: pointer;
   }
 `
-
-export { StyledHeader, Logo, Navigation, NavItem }

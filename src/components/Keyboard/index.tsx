@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import Button from '@common/Button'
+
+import { Button } from '@common/Button'
+
 import { KeyboardStyled, KeyboardItem } from './components'
 
 const numbers = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '00', '.']
 const rightOperands = ['/', '%', 'x', '-', '+', '=']
 const leftOperands = ['(', ')', '->', '+/-', 'AC']
 
-type KeyboardProps = {
+interface KeyboardProps {
   handleButton: (value: string) => void
 }
 
@@ -52,4 +54,4 @@ class Keyboard extends Component<KeyboardProps> {
   }
 }
 
-export default Keyboard
+export { Keyboard }

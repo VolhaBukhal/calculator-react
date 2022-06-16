@@ -1,4 +1,4 @@
-export interface ITheme {
+export type ITheme = {
   boxShadows: string
   font: string
   spaces: number[]

@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
-const StyledLayout = styled.div`
+export const StyledLayout = styled.div`
   width: 100%;
   margin: 0 auto;
 `
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -21,4 +21,3 @@ const StyledContainer = styled.div`
     height: auto;
   }
 `
-export { StyledLayout, StyledContainer }

@@ -1,3 +1,5 @@
+import { ThemeListKeys } from '@/App'
+
 export const localStorageSetHistory = (historyCalc: string[]) => {
   const stringifiedValue = JSON.stringify(historyCalc)
   localStorage.setItem('historyCalc', stringifiedValue)
@@ -13,7 +15,7 @@ export const localStorageSetTheme = (theme: string) => {
   localStorage.setItem('CalcTheme', stringifiedValue)
 }
 
-export const localStorageGetTheme = () => {
+export const localStorageGetTheme = (): ThemeListKeys => {
   const storedTheme = localStorage.getItem('CalcTheme')
   return storedTheme ? JSON.parse(storedTheme) : 'light'
 }

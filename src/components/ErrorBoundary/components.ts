@@ -12,4 +12,3 @@ export const Heading = styled.h4`
   font-size: ${({ theme }) => theme.fontSizes[6]}px;
   color: ${({ theme }) => theme.colors.white};
 `
-export default { ErrorWrapper, Heading }
