@@ -199,3 +199,7 @@ export function generateErrorMsg(msg: string) {
   const str = msg.split(':')
   return str[str.length - 1]
 }
+
+export function numberIsFloat(n: number) {
+  return n % 1 !== 0 ? false : true
+}
