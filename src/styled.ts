@@ -20,6 +20,9 @@ export type ITheme = {
     body: string
   }
   fontSizes: number[]
+  fontWeights: number[]
+  borderRadius: number[]
+  widths: number[]
   size: MediaSizes
   transition: string
 }

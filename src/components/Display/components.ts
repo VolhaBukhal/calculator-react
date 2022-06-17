@@ -13,19 +13,19 @@ export const DisplayStyled = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 100%;
-  height: 115px;
+  width: ${({ theme }) => theme.widths[4]}%;
+  height: ${({ theme }) => theme.widths[5]}px;
   background-color: ${({ theme }) => theme.colors.secondaryLightGrey};
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius[1]}px;
   padding: ${({ theme }) => theme.spaces[3]}px;
   overflow: auto;
   &::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: ${({ theme }) => theme.fontSizes[1] / 2};
+    height: ${({ theme }) => theme.fontSizes[1] / 2};
   }
   &::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.colors.secondaryGrey};
-    border-radius: 10px;
+    border-radius: ${({ theme }) => theme.borderRadius[1]}px;
     &:hover {
       background-color: ${({ theme }) => theme.colors.secondaryDarkGrey};
     }

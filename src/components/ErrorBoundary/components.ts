@@ -4,8 +4,8 @@ export const ErrorWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 70vh;
+  width: ${({ theme }) => theme.widths[4]}vw;
+  height: ${({ theme }) => theme.widths[1]}vh;
 `
 
 export const Heading = styled.h4`

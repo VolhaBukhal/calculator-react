@@ -7,31 +7,31 @@ const fontStyles = css`
 `
 
 export const HistoryStyled = styled.div`
-  width: 200px;
-  height: 460px;
+  width: ${({ theme }) => theme.widths[6]}px;
+  height: ${({ theme }) => theme.widths[9]}px;
   background-color: ${({ theme }) => theme.colors.secondaryLightGrey};
   margin-left: ${({ theme }) => theme.spaces[4]}px;
   padding-top: ${({ theme }) => theme.spaces[3]}px;
-  border-radius: 20px;
+  border-radius: ${({ theme }) => theme.borderRadius[2]}px;
   @media (max-width: ${(props) => props.theme.size.small}px) {
-    width: 420px;
-    margin-left: 0;
+    width: ${({ theme }) => theme.widths[8]}px;
+    margin-left: ${({ theme }) => theme.spaces[0]};
   }
 `
 
 export const HistoryContent = styled.div`
-  height: 85%;
+  height: ${({ theme }) => theme.widths[2]}%;
   padding-right: ${({ theme }) => theme.spaces[3]}px;
   margin: ${({ theme }) => theme.spaces[3]}px;
   overflow: auto;
   margin-right: ${({ theme }) => theme.spaces[1] / 2}px;
   &::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: ${({ theme }) => theme.fontSizes[1] / 2};
+    height: ${({ theme }) => theme.fontSizes[1] / 2};
   }
   &::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.colors.secondaryGrey};
-    border-radius: 10px;
+    border-radius: ${({ theme }) => theme.borderRadius[1]}px;
     &:hover {
       background-color: ${({ theme }) => theme.colors.secondaryDarkGrey};
     }
@@ -40,15 +40,15 @@ export const HistoryContent = styled.div`
 
 export const HistoryHeading = styled.h3`
   ${fontStyles};
-  font-weight: 400;
+  font-weight: ${({ theme }) => theme.fontWeights[0]};
   text-align: center;
 `
 
 export const Divider = styled.div`
-  width: 90%;
-  margin: 0 auto;
+  width: ${({ theme }) => theme.widths[3]}%;
+  margin: ${({ theme }) => theme.spaces[0]} auto;
   background-color: ${({ theme }) => theme.colors.textGrey};
-  height: 2px;
+  height: ${({ theme }) => theme.spaces[1] / 2}px;
 `
 
 export const HistoryItem = styled.p`
