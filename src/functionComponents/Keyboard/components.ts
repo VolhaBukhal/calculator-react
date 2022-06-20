@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const KeyboardStyled = styled.div`
   margin-top: ${({ theme }) => theme.spaces[3] - 4}px;
-  height: 70%;
+  height: ${({ theme }) => theme.widths[1]}%;
   display: flex;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spaces[3]}px;

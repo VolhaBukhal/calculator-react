@@ -13,7 +13,7 @@ class History extends Component<HistoryProps> {
       <HistoryStyled>
         <HistoryHeading>History</HistoryHeading>
         <Divider />
-        <HistoryContent>
+        <HistoryContent data-cy="history-list">
           {this.props.historyData.map((expr) => (
             <HistoryItem key={uuid()}>{expr}</HistoryItem>
           ))}

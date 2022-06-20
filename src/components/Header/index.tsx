@@ -23,10 +23,11 @@ const notActiveStyle = {
 
 const Header = () => (
   <StyledHeader>
-    <Logo>Calculator App</Logo>
+    <Logo data-cy="logo">Calculator App</Logo>
     <Navigation>
       {pages.map((pageInfo) => (
         <NavLink
+          data-cy="nav-item"
           to={pageInfo.path}
           key={pageInfo.page}
           style={({ isActive }) => (isActive ? isActiveStyle : notActiveStyle)}

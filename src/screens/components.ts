@@ -23,17 +23,17 @@ export const SettingsButton = styled(ButtonStyled)`
   color: ${({ theme }) => theme.colors.secondaryDarkGrey};
   &:hover {
     cursor: pointer;
-    border: 2px solid ${({ theme }) => theme.colors.text};
+    border: ${({ theme }) => theme.spaces[1] / 2}px solid ${({ theme }) => theme.colors.text};
   }
   &:active {
-    box-shadow: 0 2px 3px ${({ theme }) => theme.colors.text};
+    box-shadow: 0 ${({ theme }) => theme.spaces[1] / 2}px 3px ${({ theme }) => theme.colors.text};
     transform: scale(0.98);
   }
 `
 
 export const SettingsLabel = styled.label`
   color: ${({ theme }) => theme.colors.buttonGreyLight};
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeights[1]};
 `
 
 export const SettingsSelect = styled.select`
@@ -43,7 +43,7 @@ export const SettingsSelect = styled.select`
   border-radius: ${({ theme }) => theme.spaces[1]}px ${({ theme }) => theme.spaces[1]}px 0 0;
   border-color: #87bd87;
   font-size: 1rem;
-  transition: 0.5s all;
+  transition: ${({ theme }) => theme.transition};
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.colors.text};

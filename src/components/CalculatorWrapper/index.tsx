@@ -14,6 +14,7 @@ import {
   checkNumberExistAfterLastOpenBracket,
   checkLastSignIsCloseBrackets,
   getLastNumberInExpr,
+  numberIsFloat,
 } from '@helpers/expressionCalculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 import {
@@ -251,32 +252,56 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     switch (operator) {
       case MainOperators.MINUS:
         this.calculator.executeCommand(new SubtractCommand(lastNumber))
-        this.setState({ result: this.calculator.value.toString() })
+        this.setState({
+          result: numberIsFloat(this.calculator.value)
+            ? this.calculator.value.toString()
+            : this.calculator.value.toFixed(3),
+        })
         break
 
       case MainOperators.PLUS:
         this.calculator.executeCommand(new AddCommand(lastNumber))
-        this.setState({ result: this.calculator.value.toString() })
+        this.setState({
+          result: numberIsFloat(this.calculator.value)
+            ? this.calculator.value.toString()
+            : this.calculator.value.toFixed(3),
+        })
         break
 
       case MainOperators.DIVIDE:
         this.calculator.executeCommand(new DivideCommand(lastNumber))
-        this.setState({ result: this.calculator.value.toFixed(3) })
+        this.setState({
+          result: numberIsFloat(this.calculator.value)
+            ? this.calculator.value.toString()
+            : this.calculator.value.toFixed(3),
+        })
         break
 
       case MainOperators.MULTIPLY:
         this.calculator.executeCommand(new MultiplyCommand(lastNumber))
-        this.setState({ result: this.calculator.value.toString() })
+        this.setState({
+          result: numberIsFloat(this.calculator.value)
+            ? this.calculator.value.toString()
+            : this.calculator.value.toFixed(3),
+        })
         break
 
       case MainOperators.REMAINDER:
         this.calculator.executeCommand(new RemainderCommand(lastNumber))
-        this.setState({ result: this.calculator.value.toString() })
+        this.setState({
+          result: numberIsFloat(this.calculator.value)
+            ? this.calculator.value.toString()
+            : this.calculator.value.toFixed(3),
+        })
         break
 
       default:
         this.calculator.executeCommand(new AddCommand(lastNumber))
-        this.setState({ result: this.calculator.value.toString() })
+        this.setState({
+          result: numberIsFloat(this.calculator.value)
+            ? this.calculator.value.toString()
+            : this.calculator.value.toFixed(3),
+        })
     }
   }
 

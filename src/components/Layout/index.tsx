@@ -7,7 +7,7 @@ import { StyledLayout, StyledContainer } from './components'
 const Layout = () => (
   <StyledLayout>
     <Header />
-    <StyledContainer>
+    <StyledContainer data-cy="context-container">
       <Outlet />
     </StyledContainer>
   </StyledLayout>

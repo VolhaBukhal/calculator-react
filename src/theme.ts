@@ -33,6 +33,9 @@ export const baseTheme: ITheme = {
   body: '#6d84b1',
   spaces: [0, 4, 8, 16, 32, 64, 128],
   fontSizes: [12, 14, 16, 20, 24, 32, 40, 56, 72, 80],
+  fontWeights: [400, 700],
+  borderRadius: [5, 10, 20],
+  widths: [40, 70, 80, 90, 100, 115, 200, 400, 420, 460],
   size: size,
   colors: {
     primary,

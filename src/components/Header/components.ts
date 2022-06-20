@@ -4,7 +4,7 @@ export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  width: 100%;
+  width: ${({ theme }) => theme.widths[4]}%;
   color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.spaces[3]}px;
   background-color: ${({ theme }) => theme.colors.secondaryDark};
@@ -22,19 +22,19 @@ export const Logo = styled.div`
 export const Navigation = styled.ul`
   display: flex;
   justify-content: space-between;
-  width: 40%;
+  width: ${({ theme }) => theme.widths[0]}%;
   @media (max-width: ${(props) => props.theme.size.small}px) {
-    width: 80%;
+    width: ${({ theme }) => theme.widths[2]}%;
   }
 `
 export const NavItem = styled.li`
   font-size: ${({ theme }) => theme.fontSizes[2]}px;
   color: ${({ theme }) => theme.colors.text};
   list-style-type: none;
-  border-bottom-width: 2px;
+  border-bottom-width: ${({ theme }) => theme.spaces[1] / 2}px;
   border-bottom-style: solid;
   border-bottom-color: transparent;
-  transition: 0.4s;
+  transition: ${({ theme }) => theme.transition};
   &:hover {
     border-bottom-color: ${({ theme }) => theme.colors.text};
     cursor: pointer;

@@ -106,7 +106,8 @@ class DivideCommand implements Command {
   }
 
   execute(currentValue: number) {
-    return Math.round((currentValue / this.valueToDivide) * 1000) / 1000
+    const calcValue = Math.round((currentValue / this.valueToDivide) * 1000) / 1000
+    return calcValue
   }
   undo(currentValue: number) {
     return this.valueToDivide * currentValue
