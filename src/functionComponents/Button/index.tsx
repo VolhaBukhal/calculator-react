@@ -10,7 +10,13 @@ type ButtonProps = {
   handleExpressionValue: (value: string) => void
 }
 
-const Button = ({ value, buttonType, width, height, handleExpressionValue }: ButtonProps) => {
+export const Button = ({
+  value,
+  buttonType,
+  width,
+  height,
+  handleExpressionValue,
+}: ButtonProps) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     const value = event.currentTarget.textContent
     if (value) {
@@ -24,5 +30,3 @@ const Button = ({ value, buttonType, width, height, handleExpressionValue }: But
     </ButtonStyled>
   )
 }
-
-export { Button }

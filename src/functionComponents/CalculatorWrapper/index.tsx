@@ -47,7 +47,7 @@ enum MainOperators {
 
 const calculator = new Calculator()
 
-const CalculatorWrapper = () => {
+export const CalculatorWrapper = () => {
   const [expression, setExpression] = useState('0')
   const [currentOperator, setCurrentOperator] = useState('')
   const [result, setResult] = useState('')
@@ -212,7 +212,12 @@ const CalculatorWrapper = () => {
       }
     }
     // immediateResult
-    if (curValueIsOperator && !lastSignIsCloseBracket && !lastSignIsOperator) {
+    if (
+      curValueIsOperator &&
+      !lastSignIsCloseBracket &&
+      !lastSignIsOpenBracket &&
+      !lastSignIsOperator
+    ) {
       handleImmediateResult(currentOperator)
     }
 
@@ -295,5 +300,3 @@ const CalculatorWrapper = () => {
     </>
   )
 }
-
-export { CalculatorWrapper }

@@ -26,7 +26,7 @@ const options = [
   { value: 'dark', title: 'Dark Theme' },
 ]
 
-class Settings extends Component<SettingsProps> {
+export class Settings extends Component<SettingsProps> {
   handleClick = (event: ChangeEvent<HTMLSelectElement>) => {
     const curTheme = event.target.value
     this.props.toggleTheme(curTheme as ThemeListKeys)
@@ -67,5 +67,3 @@ class Settings extends Component<SettingsProps> {
     )
   }
 }
-
-export default Settings

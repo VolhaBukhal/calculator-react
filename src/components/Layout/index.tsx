@@ -4,7 +4,7 @@ import { Header } from '@/components/Header'
 
 import { StyledLayout, StyledContainer } from './components'
 
-const Layout = () => (
+export const Layout = () => (
   <StyledLayout>
     <Header />
     <StyledContainer data-cy="context-container">
@@ -12,5 +12,3 @@ const Layout = () => (
     </StyledContainer>
   </StyledLayout>
 )
-
-export { Layout }

@@ -7,7 +7,7 @@ interface HistoryProps {
   historyData: Array<string>
 }
 
-class History extends Component<HistoryProps> {
+export class History extends Component<HistoryProps> {
   render() {
     return (
       <HistoryStyled>
@@ -22,5 +22,3 @@ class History extends Component<HistoryProps> {
     )
   }
 }
-
-export { History }

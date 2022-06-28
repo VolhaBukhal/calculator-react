@@ -20,8 +20,8 @@ export const DisplayStyled = styled.div`
   padding: ${({ theme }) => theme.spaces[3]}px;
   overflow: auto;
   &::-webkit-scrollbar {
-    width: ${({ theme }) => theme.fontSizes[1] / 2};
-    height: ${({ theme }) => theme.fontSizes[1] / 2};
+    width: ${({ theme }) => theme.fontSizes[1] / 2}px;
+    height: ${({ theme }) => theme.fontSizes[1] / 2}px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.colors.secondaryGrey};

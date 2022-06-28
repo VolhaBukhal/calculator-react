@@ -19,7 +19,7 @@ type ThemeContextProps = {
   children: React.ReactNode
 }
 
-class ThemeContextProvider extends Component<ThemeContextProps, ThemeContextState> {
+export class ThemeContextProvider extends Component<ThemeContextProps, ThemeContextState> {
   state = {
     theme: theme,
   }
@@ -39,5 +39,3 @@ class ThemeContextProvider extends Component<ThemeContextProps, ThemeContextStat
     )
   }
 }
-
-export { ThemeContextProvider }

@@ -10,7 +10,7 @@ type KeyboardProps = {
   handleButton: (value: string) => void
 }
 
-const Keyboard = ({ handleButton }: KeyboardProps) => (
+export const Keyboard = ({ handleButton }: KeyboardProps) => (
   <KeyboardStyled>
     <KeyboardItem>
       {leftOperands.map((operand) => (
@@ -47,5 +47,3 @@ const Keyboard = ({ handleButton }: KeyboardProps) => (
     </KeyboardItem>
   </KeyboardStyled>
 )
-
-export { Keyboard }

@@ -54,7 +54,7 @@ interface CalculatorWrapperState {
   isFinished: boolean
 }
 
-class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWrapperState> {
+export class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWrapperState> {
   calculator: Calculator
   constructor(props: Record<string, unknown>) {
     super(props)
@@ -236,7 +236,12 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     }
 
     // immediateResult
-    if (curValueIsOperator && !lastSignIsCloseBracket && !lastSignIsOperator) {
+    if (
+      curValueIsOperator &&
+      !lastSignIsCloseBracket &&
+      !lastSignIsOpenBracket &&
+      !lastSignIsOperator
+    ) {
       this.handleImmediateResult(currentOperator)
     }
 
@@ -350,5 +355,3 @@ class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWra
     )
   }
 }
-
-export { CalculatorWrapper }
