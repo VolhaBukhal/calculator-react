@@ -8,7 +8,7 @@ interface DisplayProps {
   error: boolean
 }
 
-class Display extends Component<DisplayProps> {
+export class Display extends Component<DisplayProps> {
   render() {
     const { value, error, result } = this.props
     return (
@@ -23,5 +23,3 @@ class Display extends Component<DisplayProps> {
     )
   }
 }
-
-export { Display }

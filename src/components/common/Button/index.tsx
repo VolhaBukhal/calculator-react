@@ -10,7 +10,7 @@ interface ButtonProps {
   handleExpressionValue: (value: string) => void
 }
 
-class Button extends Component<ButtonProps> {
+export class Button extends Component<ButtonProps> {
   handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     const value = event.currentTarget.textContent
     if (value) {
@@ -32,5 +32,3 @@ class Button extends Component<ButtonProps> {
     )
   }
 }
-
-export { Button }

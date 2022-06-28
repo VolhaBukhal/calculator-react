@@ -21,7 +21,7 @@ const notActiveStyle = {
   textDecoration: 'none',
 }
 
-const Header = () => (
+export const Header = () => (
   <StyledHeader>
     <Logo data-cy="logo">Calculator App</Logo>
     <Navigation>
@@ -38,5 +38,3 @@ const Header = () => (
     </Navigation>
   </StyledHeader>
 )
-
-export { Header }

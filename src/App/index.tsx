@@ -4,10 +4,10 @@ import { ThemeProvider, DefaultTheme } from 'styled-components'
 
 import { Layout } from '@components/Layout'
 import { PAGE_ROUTES } from '@/constants/router'
-import Settings from '@/screens/Settings'
+import { Settings } from '@/screens/Settings'
 import { CalculatorWrapper as ClassCalculator } from '@/components/CalculatorWrapper'
 import { CalculatorWrapper as FunctionCalculator } from '@/functionComponents/CalculatorWrapper'
-import PageNotFound from '@/screens/PageNotFound'
+import { PageNotFound } from '@/screens/PageNotFound'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 import { localStorageGetTheme } from '@helpers/localStorage'

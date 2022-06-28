@@ -12,7 +12,7 @@ interface KeyboardProps {
   handleButton: (value: string) => void
 }
 
-class Keyboard extends Component<KeyboardProps> {
+export class Keyboard extends Component<KeyboardProps> {
   render() {
     return (
       <KeyboardStyled>
@@ -53,5 +53,3 @@ class Keyboard extends Component<KeyboardProps> {
     )
   }
 }
-
-export { Keyboard }

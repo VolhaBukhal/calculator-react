@@ -26,8 +26,8 @@ export const HistoryContent = styled.div`
   overflow: auto;
   margin-right: ${({ theme }) => theme.spaces[1] / 2}px;
   &::-webkit-scrollbar {
-    width: ${({ theme }) => theme.fontSizes[1] / 2};
-    height: ${({ theme }) => theme.fontSizes[1] / 2};
+    width: ${({ theme }) => theme.fontSizes[1] / 2}px;
+    height: ${({ theme }) => theme.fontSizes[1] / 2}px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.colors.secondaryGrey};

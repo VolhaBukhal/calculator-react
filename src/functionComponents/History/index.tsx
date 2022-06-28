@@ -6,7 +6,7 @@ type HistoryProps = {
   historyData: Array<string>
 }
 
-const History = ({ historyData }: HistoryProps) => (
+export const History = ({ historyData }: HistoryProps) => (
   <HistoryStyled>
     <HistoryHeading>History</HistoryHeading>
     <Divider />
@@ -17,5 +17,3 @@ const History = ({ historyData }: HistoryProps) => (
     </HistoryContent>
   </HistoryStyled>
 )
-
-export { History }
