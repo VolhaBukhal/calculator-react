@@ -1,9 +1,11 @@
 import { Component } from 'react'
 
-import { Wrapper } from './components'
+import { Wrapper } from './styles'
 import { Display } from '@components/Display'
 import { Keyboard } from '@/components/Keyboard'
 import { History } from '@components/History'
+
+import { SecondaryOperators, MainOperators } from '@/constants/calculation'
 
 import {
   doCalcExpression,
@@ -27,32 +29,7 @@ import {
   ClearCommand,
 } from '@helpers/calculator'
 
-enum SecondaryOperators {
-  CLEAR_ALL = 'AC',
-  EQUAL = '=',
-  COMMA = '.',
-  CLEAR = '->',
-  OPPOSITE_SIGN = '+/-',
-  OPEN_BRACKET = '(',
-  CLOSE_BRACKET = ')',
-}
-
-enum MainOperators {
-  PLUS = '+',
-  MINUS = '-',
-  DIVIDE = '/',
-  MULTIPLY = 'x',
-  REMAINDER = '%',
-}
-
-interface CalculatorWrapperState {
-  expression: string
-  result: string
-  currentOperator: string
-  history: Array<string>
-  isError: boolean
-  isFinished: boolean
-}
+import { CalculatorWrapperState } from './interfaces'
 
 export class CalculatorWrapper extends Component<Record<string, unknown>, CalculatorWrapperState> {
   calculator: Calculator

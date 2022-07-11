@@ -1,14 +1,7 @@
 import { Component, MouseEvent } from 'react'
 
-import { ButtonStyled } from './components'
-
-interface ButtonProps {
-  value: string
-  buttonType: string
-  width?: string
-  height?: string
-  handleExpressionValue: (value: string) => void
-}
+import { ButtonProps } from './interfaces'
+import { ButtonStyled } from './styles'
 
 export class Button extends Component<ButtonProps> {
   handleClick = (event: MouseEvent<HTMLButtonElement>) => {

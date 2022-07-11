@@ -1,10 +1,8 @@
 import { v4 as uuid } from 'uuid'
 
-import { HistoryStyled, HistoryHeading, Divider, HistoryContent, HistoryItem } from './components'
+import { HistoryProps } from './types'
 
-type HistoryProps = {
-  historyData: Array<string>
-}
+import { HistoryStyled, HistoryHeading, Divider, HistoryContent, HistoryItem } from './styles'
 
 export const History = ({ historyData }: HistoryProps) => (
   <HistoryStyled>

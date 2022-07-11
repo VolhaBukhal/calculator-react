@@ -4,6 +4,8 @@ import { Display } from '@functionComponents/Display'
 import { Keyboard } from '@functionComponents/Keyboard'
 import { History } from '@functionComponents/History'
 
+import { SecondaryOperators, MainOperators } from '@constants/calculation'
+
 import {
   doCalcExpression,
   checkCommaIsUnique,
@@ -25,25 +27,7 @@ import {
 } from '@helpers/calculator'
 import { localStorageSetHistory, localStorageGetHistory } from '@helpers/localStorage'
 
-import { Wrapper } from './components'
-
-enum SecondaryOperators {
-  CLEAR_ALL = 'AC',
-  EQUAL = '=',
-  COMMA = '.',
-  CLEAR = '->',
-  OPPOSITE_SIGN = '+/-',
-  OPEN_BRACKET = '(',
-  CLOSE_BRACKET = ')',
-}
-
-enum MainOperators {
-  PLUS = '+',
-  MINUS = '-',
-  DIVIDE = '/',
-  MULTIPLY = 'x',
-  REMAINDER = '%',
-}
+import { Wrapper } from './styles'
 
 const calculator = new Calculator()
 

@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { v4 as uuid } from 'uuid'
 
-import { HistoryStyled, HistoryHeading, Divider, HistoryContent, HistoryItem } from './components'
+import { HistoryStyled, HistoryHeading, Divider, HistoryContent, HistoryItem } from './styles'
 
-interface HistoryProps {
-  historyData: Array<string>
-}
+import { HistoryProps } from './interfaces'
 
 export class History extends Component<HistoryProps> {
   render() {
