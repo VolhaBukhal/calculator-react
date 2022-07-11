@@ -1,10 +1,6 @@
-import { DisplayStyled, DisplayExpression, DisplayRes } from './components'
+import { DisplayStyled, DisplayExpression, DisplayRes } from './styles'
 
-type DisplayProps = {
-  value: string
-  result: string
-  error: boolean
-}
+import { DisplayProps } from './types'
 
 export const Display = ({ value, error, result }: DisplayProps) => (
   <DisplayStyled>

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
-import { StyledHeader, Logo, Navigation, NavItem } from './components'
+import { StyledHeader, Logo, Navigation, NavItem } from './styles'
 
 import { PAGE_ROUTES } from '@/constants/router'
 

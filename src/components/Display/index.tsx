@@ -1,12 +1,8 @@
 import { Component } from 'react'
 
-import { DisplayStyled, DisplayExpression, DisplayRes } from './components'
+import { DisplayStyled, DisplayExpression, DisplayRes } from './styles'
 
-interface DisplayProps {
-  value: string
-  result: string
-  error: boolean
-}
+import { DisplayProps } from './interfaces'
 
 export class Display extends Component<DisplayProps> {
   render() {

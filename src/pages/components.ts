@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { ButtonStyled } from '@common/Button/components'
+import { ButtonStyled } from '@/components/Button/styles'
 
 export const SettingsWrapper = styled.div`
   display: flex;

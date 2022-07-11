@@ -1,19 +1,14 @@
 import { Button } from '@/functionComponents/Button'
 
-import { KeyboardStyled, KeyboardItem } from './components'
+import { numbers, leftOperators, rightOperators } from '@/constants/operators'
+import { KeyboardProps } from './types'
 
-const numbers = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '00', '.']
-const rightOperands = ['/', '%', 'x', '-', '+', '=']
-const leftOperands = ['(', ')', '->', '+/-', 'AC']
-
-type KeyboardProps = {
-  handleButton: (value: string) => void
-}
+import { KeyboardStyled, KeyboardItem } from './styles'
 
 export const Keyboard = ({ handleButton }: KeyboardProps) => (
   <KeyboardStyled>
     <KeyboardItem>
-      {leftOperands.map((operand) => (
+      {leftOperators.map((operand) => (
         <Button
           key={operand}
           value={operand}
@@ -35,7 +30,7 @@ export const Keyboard = ({ handleButton }: KeyboardProps) => (
       ))}
     </KeyboardItem>
     <KeyboardItem width="30">
-      {rightOperands.map((operand) => (
+      {rightOperators.map((operand) => (
         <Button
           key={operand}
           value={operand}

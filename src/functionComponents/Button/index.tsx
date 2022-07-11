@@ -1,14 +1,7 @@
 import { MouseEvent } from 'react'
 
-import { ButtonStyled } from './components'
-
-type ButtonProps = {
-  value: string
-  buttonType: string
-  width?: string
-  height?: string
-  handleExpressionValue: (value: string) => void
-}
+import { ButtonProps } from './types'
+import { ButtonStyled } from './styles'
 
 export const Button = ({
   value,

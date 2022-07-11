@@ -6,7 +6,7 @@
         "@components/*": ["components/*"],
         "@common/*": ["components/common/*"],
         "@constants/*": ["constants/*"],
-        "@screens/*": ["screens/*"],
+        "@pages/*": ["pages/*"],
         "@assets/*": ["assets/*"],
         "@helpers/*": ["helpers/*"],
         "@functionComponents/*":["functionComponents/*"],
