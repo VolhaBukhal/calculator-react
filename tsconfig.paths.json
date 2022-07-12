@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "baseUrl": "src",
+      "paths": {
+        "@/*" : ["*"],
+        "@components/*": ["components/*"],
+        "@common/*": ["components/common/*"],
+        "@constants/*": ["constants/*"],
+        "@pages/*": ["pages/*"],
+        "@assets/*": ["assets/*"],
+        "@helpers/*": ["helpers/*"],
+        "@functionComponents/*":["functionComponents/*"],
+       }
+  }
+}
